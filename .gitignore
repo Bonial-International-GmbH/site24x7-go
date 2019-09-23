@@ -1,0 +1,4 @@
+.cover
+coverage.txt
+/dist
+/vendor
