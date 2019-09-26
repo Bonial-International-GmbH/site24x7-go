@@ -5,15 +5,15 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type MonitorGroupsEndpoint interface {
-	Get(groupID string) (*api.MonitorGroup, error)
-	Create(group *api.MonitorGroup) (*api.MonitorGroup, error)
-	Update(group *api.MonitorGroup) (*api.MonitorGroup, error)
+type GroupsEndpoint interface {
+	Get(groupID string) (*api.Group, error)
+	Create(group *api.Group) (*api.Group, error)
+	Update(group *api.Group) (*api.Group, error)
 	Delete(groupID string) error
-	List() ([]*api.MonitorGroup, error)
+	List() ([]*api.Group, error)
 }
 
-type monitorGroupsEndpoint struct {
+type groupsEndpoint struct {
 	client rest.Client
 }
 
