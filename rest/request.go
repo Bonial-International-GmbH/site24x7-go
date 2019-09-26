@@ -1,4 +1,4 @@
-package api
+package rest
 
 import (
 	"bytes"
@@ -7,6 +7,7 @@ import (
 	"net/http"
 	"net/url"
 
+	"github.com/Bonial-International-GmbH/site24x7-go/api"
 	apierrors "github.com/Bonial-International-GmbH/site24x7-go/api/errors"
 	log "github.com/sirupsen/logrus"
 )
@@ -32,9 +33,10 @@ type Request struct {
 
 // NewRequest creates a new *Request which uses client to send out the prepared
 // *http.Request.
-func NewRequest(client HTTPClient) *Request {
+func NewRequest(client HTTPClient, verb string) *Request {
 	return &Request{
 		client: client,
+		verb:   verb,
 	}
 }
 
@@ -52,33 +54,6 @@ func (r *Request) Resource(resource string) *Request {
 func (r *Request) ResourceID(resourceID string) *Request {
 	r.resourceID = resourceID
 	return r
-}
-
-// Verb is the HTTP verb (or method) that should be used, e.g. 'POST', 'PUT',
-// 'GET' or 'DELETE'.
-func (r *Request) Verb(verb string) *Request {
-	r.verb = verb
-	return r
-}
-
-// Get sets the HTTP request method to GET.
-func (r *Request) Get() *Request {
-	return r.Verb("GET")
-}
-
-// Post sets the HTTP request method to POST.
-func (r *Request) Post() *Request {
-	return r.Verb("POST")
-}
-
-// Put sets the HTTP request method to PUT.
-func (r *Request) Put() *Request {
-	return r.Verb("PUT")
-}
-
-// Delete sets the HTTP request method to DELETE.
-func (r *Request) Delete() *Request {
-	return r.Verb("DELETE")
 }
 
 // AddHeader adds a HTTP header to the request.
@@ -172,7 +147,7 @@ func (r *Request) Into(v interface{}) error {
 		return r.err
 	}
 
-	resp := &response{}
+	resp := &api.Response{}
 
 	r.err = json.Unmarshal(r.respBody, resp)
 	if r.err != nil {
@@ -188,7 +163,7 @@ func (r *Request) Err() error {
 }
 
 func createStatusError(statusCode int, body []byte) error {
-	resp := &errorResponse{}
+	resp := &api.ErrorResponse{}
 
 	err := json.Unmarshal(body, resp)
 	if err != nil {

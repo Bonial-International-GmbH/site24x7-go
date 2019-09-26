@@ -1,21 +1,31 @@
-package api
+package endpoints
+
+import (
+	"github.com/Bonial-International-GmbH/site24x7-go/api"
+	"github.com/Bonial-International-GmbH/site24x7-go/rest"
+)
 
 type MonitorsEndpoint interface {
-	Get(monitorID string) (*Monitor, error)
-	Create(monitor *Monitor) (*Monitor, error)
-	Update(monitor *Monitor) (*Monitor, error)
+	Get(monitorID string) (*api.Monitor, error)
+	Create(monitor *api.Monitor) (*api.Monitor, error)
+	Update(monitor *api.Monitor) (*api.Monitor, error)
 	Delete(monitorID string) error
-	List() ([]*Monitor, error)
+	List() ([]*api.Monitor, error)
 }
 
 type monitorsEndpoint struct {
-	client RequestFactory
+	client rest.Client
 }
 
-func (c *monitorsEndpoint) Get(monitorID string) (*Monitor, error) {
-	monitor := &Monitor{}
+func NewMonitorsEndpoint(client rest.Client) MonitorsEndpoint {
+	return &monitorsEndpoint{
+		client: client,
+	}
+}
+
+func (c *monitorsEndpoint) Get(monitorID string) (*api.Monitor, error) {
+	monitor := &api.Monitor{}
 	err := c.client.
-		Request().
 		Get().
 		Resource("monitors").
 		ResourceID(monitorID).
@@ -25,10 +35,9 @@ func (c *monitorsEndpoint) Get(monitorID string) (*Monitor, error) {
 	return monitor, err
 }
 
-func (c *monitorsEndpoint) Create(monitor *Monitor) (*Monitor, error) {
-	newMonitor := &Monitor{}
+func (c *monitorsEndpoint) Create(monitor *api.Monitor) (*api.Monitor, error) {
+	newMonitor := &api.Monitor{}
 	err := c.client.
-		Request().
 		Post().
 		Resource("monitors").
 		AddHeader("Content-Type", "application/json;charset=UTF-8").
@@ -39,10 +48,9 @@ func (c *monitorsEndpoint) Create(monitor *Monitor) (*Monitor, error) {
 	return newMonitor, err
 }
 
-func (c *monitorsEndpoint) Update(monitor *Monitor) (*Monitor, error) {
-	updatedMonitor := &Monitor{}
+func (c *monitorsEndpoint) Update(monitor *api.Monitor) (*api.Monitor, error) {
+	updatedMonitor := &api.Monitor{}
 	err := c.client.
-		Request().
 		Put().
 		Resource("monitors").
 		ResourceID(monitor.MonitorID).
@@ -56,7 +64,6 @@ func (c *monitorsEndpoint) Update(monitor *Monitor) (*Monitor, error) {
 
 func (c *monitorsEndpoint) Delete(monitorID string) error {
 	return c.client.
-		Request().
 		Delete().
 		Resource("monitors").
 		ResourceID(monitorID).
@@ -64,10 +71,9 @@ func (c *monitorsEndpoint) Delete(monitorID string) error {
 		Err()
 }
 
-func (c *monitorsEndpoint) List() ([]*Monitor, error) {
-	monitors := []*Monitor{}
+func (c *monitorsEndpoint) List() ([]*api.Monitor, error) {
+	monitors := []*api.Monitor{}
 	err := c.client.
-		Request().
 		Get().
 		Resource("monitors").
 		Do().

@@ -1,4 +1,4 @@
-package api
+package rest
 
 import (
 	"bytes"
@@ -18,8 +18,7 @@ func TestRequest_buildRequest(t *testing.T) {
 		"foo": "bar",
 	}
 
-	r := NewRequest(c).
-		Delete().
+	r := NewRequest(c, "DELETE").
 		Resource("foos").
 		ResourceID("123").
 		Body(body).
@@ -44,11 +43,11 @@ func TestRequest_DoInto(t *testing.T) {
 		WithStatusCode(200).
 		WithResponseBody([]byte(`{"data":{"foo":"bar"}}`))
 
-	r := NewRequest(c)
+	r := NewRequest(c, "POST")
 
 	var result map[string]string
 
-	err := r.Post().
+	err := r.
 		Resource("foos").
 		ResourceID("123").
 		Do().
@@ -68,11 +67,11 @@ func TestRequest_DoIntoError(t *testing.T) {
 		WithStatusCode(404).
 		WithResponseBody([]byte(`{"error_code":456,"message":"not found","error_info":{"foo":"bar"}}`))
 
-	r := NewRequest(c)
+	r := NewRequest(c, "PUT")
 
 	var result map[string]string
 
-	err := r.Put().
+	err := r.
 		Resource("foos").
 		ResourceID("123").
 		Body(nil).
