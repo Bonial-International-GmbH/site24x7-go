@@ -82,14 +82,14 @@ func TestRequest_DoIntoError(t *testing.T) {
 	require.Error(t, err)
 	assert.Nil(t, result)
 
-	statusErr, ok := err.(apierrors.StatusError)
+	statusErr, ok := err.(apierrors.ExtendedStatusError)
 	if !ok {
-		t.Fatalf("expected StatusError, got %T", err)
+		t.Fatalf("expected ExtendedStatusError, got %T", err)
 	}
 
 	assert.Equal(t, 404, statusErr.StatusCode())
 	assert.Equal(t, 456, statusErr.ErrorCode())
-	assert.Equal(t, "not found", statusErr.Message())
+	assert.Equal(t, "not found", statusErr.Error())
 	assert.Equal(t, map[string]interface{}{"foo": "bar"}, statusErr.ErrorInfo())
 }
 

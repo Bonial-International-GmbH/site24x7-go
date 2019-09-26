@@ -12,9 +12,12 @@ import (
 )
 
 const (
+	// BasePath is the root url of the Site24x7 API.
 	BasePath = "https://www.site24x7.com/api"
 )
 
+// Request is a wrapper for preparing and sending a *http.Request. It provides
+// funtionality for encoding arbitrary types to the wire format and back.
 type Request struct {
 	client     HTTPClient
 	resource   string
@@ -27,43 +30,58 @@ type Request struct {
 	err        error
 }
 
+// NewRequest creates a new *Request which uses client to send out the prepared
+// *http.Request.
 func NewRequest(client HTTPClient) *Request {
 	return &Request{
 		client: client,
 	}
 }
 
+// Resource sets the API resource which the request should be built for, e.g.
+// 'monitors'. The resulting API resource path for this would be
+// '/api/monitors'.
 func (r *Request) Resource(resource string) *Request {
 	r.resource = resource
 	return r
 }
 
+// ResourceID sets the API resource ID which the request should be built for,
+// e.g. '123'. Example: if the resource was set to 'monitors', the resulting
+// API resource path will be '/api/monitors/123'.
 func (r *Request) ResourceID(resourceID string) *Request {
 	r.resourceID = resourceID
 	return r
 }
 
+// Verb is the HTTP verb (or method) that should be used, e.g. 'POST', 'PUT',
+// 'GET' or 'DELETE'.
 func (r *Request) Verb(verb string) *Request {
 	r.verb = verb
 	return r
 }
 
+// Get sets the HTTP request method to GET.
 func (r *Request) Get() *Request {
 	return r.Verb("GET")
 }
 
+// Post sets the HTTP request method to POST.
 func (r *Request) Post() *Request {
 	return r.Verb("POST")
 }
 
+// Put sets the HTTP request method to PUT.
 func (r *Request) Put() *Request {
 	return r.Verb("PUT")
 }
 
+// Delete sets the HTTP request method to DELETE.
 func (r *Request) Delete() *Request {
 	return r.Verb("DELETE")
 }
 
+// AddHeader adds a HTTP header to the request.
 func (r *Request) AddHeader(key, value string) *Request {
 	if r.header == nil {
 		r.header = http.Header{}
@@ -73,6 +91,7 @@ func (r *Request) AddHeader(key, value string) *Request {
 	return r
 }
 
+// Body marshals v into the request body.
 func (r *Request) Body(v interface{}) *Request {
 	r.body, r.err = json.Marshal(v)
 	return r
@@ -87,6 +106,8 @@ func (r *Request) buildRawURL() string {
 	return rawURL
 }
 
+// Do sends the request. This is a no-op if there were errors while building
+// the request.
 func (r *Request) Do() *Request {
 	if r.err != nil {
 		return r
@@ -138,11 +159,14 @@ func (r *Request) doRequest(req *http.Request) ([]byte, error) {
 		return respBody, nil
 	}
 
-	err = parseErrorResponse(resp.StatusCode, respBody)
+	err = createStatusError(resp.StatusCode, respBody)
 
 	return respBody, err
 }
 
+// Into unmarshals the response body into v. The passed in value must be a
+// pointer. It returns any error that occured during the request. This is a
+// no-op if there were errors before.
 func (r *Request) Into(v interface{}) error {
 	if r.err != nil {
 		return r.err
@@ -158,11 +182,12 @@ func (r *Request) Into(v interface{}) error {
 	return json.Unmarshal([]byte(resp.Data), v)
 }
 
+// Err returns the request error if there was one.
 func (r *Request) Err() error {
 	return r.err
 }
 
-func parseErrorResponse(statusCode int, body []byte) error {
+func createStatusError(statusCode int, body []byte) error {
 	resp := &errorResponse{}
 
 	err := json.Unmarshal(body, resp)
@@ -170,5 +195,5 @@ func parseErrorResponse(statusCode int, body []byte) error {
 		return err
 	}
 
-	return apierrors.NewStatusError(statusCode, resp.ErrorCode, resp.Message, resp.ErrorInfo)
+	return apierrors.NewExtendedStatusError(statusCode, resp.Message, resp.ErrorCode, resp.ErrorInfo)
 }

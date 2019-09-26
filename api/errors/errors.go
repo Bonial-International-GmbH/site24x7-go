@@ -1,73 +1,63 @@
-package api
+package errors
 
-import (
-	"fmt"
-)
-
+// StatusError provides the HTTP status code in addition to the error message.
 type StatusError interface {
 	error
 	StatusCode() int
+}
+
+// ExtendedStatusError provides HTTP status and additional error information.
+type ExtendedStatusError interface {
+	StatusError
 	ErrorCode() int
-	Message() string
 	ErrorInfo() map[string]interface{}
-}
-
-func IsStatusError(err error) bool {
-	_, ok := err.(StatusError)
-	return ok
-}
-
-func HasStatusCode(err error, code int) bool {
-	if statusError, ok := err.(StatusError); ok {
-		return statusError.StatusCode() == code
-	}
-
-	return false
-}
-
-func HasErrorCode(err error, code int) bool {
-	if statusError, ok := err.(StatusError); ok {
-		return statusError.ErrorCode() == code
-	}
-
-	return false
 }
 
 type statusError struct {
 	statusCode int
-	errorCode  int
 	message    string
-	errorInfo  map[string]interface{}
 }
 
-func NewStatusError(statusCode, errorCode int, message string, errorInfo map[string]interface{}) StatusError {
+// NewStatusError creates a new StatusError with statusCode and message.
+func NewStatusError(statusCode int, message string) StatusError {
 	return &statusError{
 		statusCode: statusCode,
-		errorCode:  errorCode,
 		message:    message,
-		errorInfo:  errorInfo,
 	}
 }
 
+// StatusCode implements StatusError.
 func (e *statusError) StatusCode() int {
 	return e.statusCode
 }
 
-func (e *statusError) ErrorCode() int {
-	return e.errorCode
-}
-
-func (e *statusError) Message() string {
+// Error implements error.
+func (e *statusError) Error() string {
 	return e.message
 }
 
-func (e *statusError) ErrorInfo() map[string]interface{} {
-	return e.errorInfo
+type extendedStatusError struct {
+	StatusError
+	errorCode int
+	errorInfo map[string]interface{}
 }
 
-func (e *statusError) Error() string {
-	return fmt.Sprintf(
-		"StatusCode: %d, ErrorCode: %d, Message: %q, Info: %v",
-		e.statusCode, e.errorCode, e.message, e.errorInfo,
-	)
+// NewExtendedStatusError creates a new ExtendedStatusError with statusCode,
+// message and additional error information.
+func NewExtendedStatusError(statusCode int, message string, errorCode int, errorInfo map[string]interface{}) StatusError {
+	return &extendedStatusError{
+		StatusError: NewStatusError(statusCode, message),
+		errorCode:   errorCode,
+		errorInfo:   errorInfo,
+	}
+}
+
+// ErrorCode implements ExtendedStatusError.
+func (e *extendedStatusError) ErrorCode() int {
+	return e.errorCode
+}
+
+// ErrorInfo implements ExtendedStatusError.
+func (e *extendedStatusError) ErrorInfo() map[string]interface{} {
+	return e.errorInfo
 }

@@ -8,11 +8,16 @@ import (
 )
 
 const (
+	// TokenURL is the URL from where access tokens for the Site24x7 API are
+	// obtained.
 	TokenURL = "https://accounts.zoho.com/oauth/v2/token"
 
+	// TokenType is the type used in the Authorization header next to the
+	// access token.
 	TokenType = "Zoho-oauthtoken"
 )
 
+// Config is an OAuth config that is also aware of the refresh token.
 type Config struct {
 	*oauth2.Config
 
@@ -22,6 +27,7 @@ type Config struct {
 	RefreshToken string
 }
 
+// NewConfig creates a new *Config for the provided client credentials.
 func NewConfig(clientID, clientSecret, refreshToken string) *Config {
 	return &Config{
 		Config: &oauth2.Config{
@@ -35,10 +41,14 @@ func NewConfig(clientID, clientSecret, refreshToken string) *Config {
 	}
 }
 
+// Client returns a *http.Client which automatically retrieves OAuth access
+// tokens and attaches them to any request made with it.
 func (c *Config) Client(ctx context.Context) *http.Client {
 	return oauth2.NewClient(ctx, c.TokenSource(ctx))
 }
 
+// TokenSource creates an oauth2.TokenSource which obtains access tokens using
+// the refresh token.
 func (c *Config) TokenSource(ctx context.Context) oauth2.TokenSource {
 	t := &oauth2.Token{
 		RefreshToken: c.RefreshToken,
