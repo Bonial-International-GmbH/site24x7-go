@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Bonial-International-GmbH/site24x7-go/api"
+	site24x7 "github.com/Bonial-International-GmbH/site24x7-go"
 	"github.com/Bonial-International-GmbH/site24x7-go/oauth"
 )
 
@@ -18,7 +18,7 @@ func main() {
 
 	httpClient := config.Client(context.Background())
 
-	client := api.NewClient(httpClient)
+	client := site24x7.NewClient(httpClient)
 
 	monitors, err := client.Monitors().List()
 	if err != nil {

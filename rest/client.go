@@ -28,7 +28,9 @@ func NewClient(httpClient HTTPClient) Client {
 // Verb creates a new *Request with given HTTP verb, e.g. 'POST', 'PUT', 'GET'
 // or 'DELETE'.
 func (c *client) Verb(verb string) *Request {
-	return NewRequest(c.httpClient, verb)
+	r := NewRequest(c.httpClient, verb).
+		AddHeader("Accept", "application/json; version=2.0")
+	return r
 }
 
 // Get creates a new HTTP GET request.
