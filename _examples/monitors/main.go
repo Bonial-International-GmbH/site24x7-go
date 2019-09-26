@@ -21,6 +21,7 @@ func main() {
 	client := site24x7.NewClient(httpClient)
 
 	monitors, err := client.Monitors().List()
+	monitor_groups, err := client.Groups().List()
 	if err != nil {
 		panic(err)
 	}
@@ -28,4 +29,9 @@ func main() {
 	for _, monitor := range monitors {
 		fmt.Printf("%+v\n\n", monitor)
 	}
+
+	for _, group := range monitor_groups {
+		fmt.Printf("%+v\n\n", group)
+	}
+
 }
