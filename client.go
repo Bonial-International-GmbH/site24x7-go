@@ -29,7 +29,7 @@ type Config struct {
 // clients for resource endpoints.
 type Client interface {
 	LocationProfiles() endpoints.LocationProfilesEndpoint
-	Groups() endpoints.GroupsEndpoint
+	MonitorGroups() endpoints.MonitorGroupsEndpoint
 	Monitors() endpoints.MonitorsEndpoint
 	NotificationProfiles() endpoints.NotificationProfilesEndpoint
 	ThresholdProfiles() endpoints.ThresholdProfilesEndpoint

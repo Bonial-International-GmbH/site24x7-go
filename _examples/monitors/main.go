@@ -17,7 +17,6 @@ func main() {
 	client := site24x7.NewClientForConfig(config)
 
 	monitors, err := client.Monitors().List()
-	monitor_groups, err := client.Groups().List()
 	if err != nil {
 		panic(err)
 	}
