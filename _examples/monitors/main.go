@@ -1,24 +1,20 @@
 package main
 
 import (
-	"context"
 	"fmt"
 	"os"
 
 	site24x7 "github.com/Bonial-International-GmbH/site24x7-go"
-	"github.com/Bonial-International-GmbH/site24x7-go/oauth"
 )
 
 func main() {
-	config := oauth.NewConfig(
-		os.Getenv("CLIENT_ID"),
-		os.Getenv("CLIENT_SECRET"),
-		os.Getenv("REFRESH_TOKEN"),
-	)
+	config := site24x7.Config{
+		ClientID:     os.Getenv("CLIENT_ID"),
+		ClientSecret: os.Getenv("CLIENT_SECRET"),
+		RefreshToken: os.Getenv("REFRESH_TOKEN"),
+	}
 
-	httpClient := config.Client(context.Background())
-
-	client := site24x7.NewClient(httpClient)
+	client := site24x7.NewClientForConfig(config)
 
 	monitors, err := client.Monitors().List()
 	if err != nil {
