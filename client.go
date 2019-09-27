@@ -9,7 +9,7 @@ import (
 
 type Client interface {
 	LocationProfiles() endpoints.LocationProfilesEndpoint
-	Groups() endpoints.GroupsEndpoint
+	MonitorGroups() endpoints.MonitorGroupsEndpoint
 	Monitors() endpoints.MonitorsEndpoint
 	NotificationProfiles() endpoints.NotificationProfilesEndpoint
 	ThresholdProfiles() endpoints.ThresholdProfilesEndpoint
@@ -35,8 +35,8 @@ func (c *client) Monitors() endpoints.MonitorsEndpoint {
 	return endpoints.NewMonitorsEndpoint(c.restClient)
 }
 
-func (c *client) Groups() endpoints.GroupsEndpoint {
-	return endpoints.NewGroupsEndpoint(c.restClient)
+func (c *client) MonitorGroups() endpoints.MonitorGroupsEndpoint {
+	return endpoints.NewMonitorGroupsEndpoint(c.restClient)
 }
 
 func (c *client) NotificationProfiles() endpoints.NotificationProfilesEndpoint {

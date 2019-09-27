@@ -52,10 +52,10 @@ type Monitor struct {
 	UseNameServer         bool              `json:"use_name_server"`
 }
 
-// MonitorGroups help organize resources (Monitors)
-type Group struct {
+// MonitorGroup organizes Monitor resources into groups.
+type MonitorGroup struct {
 	GroupID              string   `json: "group_id,omitempty"`
-	DisplayName          string   `json:"display_name"`
+	DisplayName          string   `json: "display_name"`
 	Description          string   `json: "description,omitempty"`
 	Monitors             []string `json: "monitors,omitempty"`
 	HealthThresholdCount int      `json: "health_threshold_count,omitempty"`

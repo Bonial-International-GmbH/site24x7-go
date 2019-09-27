@@ -5,51 +5,51 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type GroupsEndpoint interface {
-	Get(groupID string) (*api.Group, error)
-	Create(group *api.Group) (*api.Group, error)
-	Update(group *api.Group) (*api.Group, error)
+type MonitorGroupsEndpoint interface {
+	Get(groupID string) (*api.MonitorGroup, error)
+	Create(group *api.MonitorGroup) (*api.MonitorGroup, error)
+	Update(group *api.MonitorGroup) (*api.MonitorGroup, error)
 	Delete(groupID string) error
-	List() ([]*api.Group, error)
+	List() ([]*api.MonitorGroup, error)
 }
 
-type groupsEndpoint struct {
+type monitorGroupsEndpoint struct {
 	client rest.Client
 }
 
-func NewGroupsEndpoint(client rest.Client) GroupsEndpoint {
-	return &groupsEndpoint{
+func NewMonitorGroupsEndpoint(client rest.Client) MonitorGroupsEndpoint {
+	return &monitorGroupsEndpoint{
 		client: client,
 	}
 }
 
-func (c *groupsEndpoint) Get(groupID string) (*api.Group, error) {
-	group := &api.Group{}
+func (c *monitorGroupsEndpoint) Get(groupID string) (*api.MonitorGroup, error) {
+	monitorGroup := &api.MonitorGroup{}
 	err := c.client.
 		Get().
 		Resource("monitor_groups").
 		ResourceID(groupID).
 		Do().
-		Into(group)
+		Into(monitorGroup)
 
-	return group, err
+	return monitorGroup, err
 }
 
-func (c *groupsEndpoint) Create(group *api.Group) (*api.Group, error) {
-	newGroup := &api.Group{}
+func (c *monitorGroupsEndpoint) Create(group *api.MonitorGroup) (*api.MonitorGroup, error) {
+	newMonitorGroup := &api.MonitorGroup{}
 	err := c.client.
 		Post().
 		Resource("monitor_groups").
 		AddHeader("Content-Type", "application/json;charset=UTF-8").
 		Body(group).
 		Do().
-		Into(newGroup)
+		Into(newMonitorGroup)
 
-	return newGroup, err
+	return newMonitorGroup, err
 }
 
-func (c *groupsEndpoint) Update(group *api.Group) (*api.Group, error) {
-	updatedGroup := &api.Group{}
+func (c *monitorGroupsEndpoint) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
+	updatedGroup := &api.MonitorGroup{}
 	err := c.client.
 		Put().
 		Resource("monitor_groups").
@@ -62,7 +62,7 @@ func (c *groupsEndpoint) Update(group *api.Group) (*api.Group, error) {
 	return updatedGroup, err
 }
 
-func (c *groupsEndpoint) Delete(groupID string) error {
+func (c *monitorGroupsEndpoint) Delete(groupID string) error {
 	return c.client.
 		Delete().
 		Resource("monitor_groups").
@@ -71,13 +71,13 @@ func (c *groupsEndpoint) Delete(groupID string) error {
 		Err()
 }
 
-func (c *groupsEndpoint) List() ([]*api.Group, error) {
-	groups := []*api.Group{}
+func (c *monitorGroupsEndpoint) List() ([]*api.MonitorGroup, error) {
+	monitorGroups := []*api.MonitorGroup{}
 	err := c.client.
 		Get().
 		Resource("monitor_groups").
 		Do().
-		Into(&groups)
+		Into(&monitorGroups)
 
-	return groups, err
+	return monitorGroups, err
 }
