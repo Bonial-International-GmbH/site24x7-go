@@ -3,6 +3,7 @@ package rest
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"io/ioutil"
 	"net/http"
 	"net/url"
@@ -34,10 +35,14 @@ type Request struct {
 // NewRequest creates a new *Request which uses client to send out the prepared
 // *http.Request.
 func NewRequest(client HTTPClient, verb string) *Request {
-	return &Request{
+	r := &Request{
 		client: client,
 		verb:   verb,
 	}
+
+	r.AddHeader("Accept", "application/json; version=2.0")
+
+	return r
 }
 
 // Resource sets the API resource which the request should be built for, e.g.
@@ -83,20 +88,17 @@ func (r *Request) buildRawURL() string {
 
 // Do sends the request. This is a no-op if there were errors while building
 // the request.
-func (r *Request) Do() *Request {
+func (r *Request) Do() Response {
 	if r.err != nil {
-		return r
+		return Response{err: r.err}
 	}
 
 	req, err := r.buildRequest()
 	if err != nil {
-		r.err = err
-		return r
+		return Response{err: err}
 	}
 
-	r.respBody, r.err = r.doRequest(req)
-
-	return r
+	return r.doRequest(req)
 }
 
 func (r *Request) buildRequest() (*http.Request, error) {
@@ -115,51 +117,26 @@ func (r *Request) buildRequest() (*http.Request, error) {
 	return req, nil
 }
 
-func (r *Request) doRequest(req *http.Request) ([]byte, error) {
+func (r *Request) doRequest(req *http.Request) Response {
 	resp, err := r.client.Do(req)
 	if err != nil {
-		return nil, err
+		return Response{err: err}
 	}
 
 	defer resp.Body.Close()
 
-	respBody, err := ioutil.ReadAll(resp.Body)
+	body, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
-		return nil, err
+		return Response{err: err}
 	}
 
-	log.Debugf("received: %s", string(respBody))
+	log.Debugf("received: %s", string(body))
 
 	if resp.StatusCode > 0 && resp.StatusCode < 400 {
-		return respBody, nil
+		return Response{body: body}
 	}
 
-	err = createStatusError(resp.StatusCode, respBody)
-
-	return respBody, err
-}
-
-// Into unmarshals the response body into v. The passed in value must be a
-// pointer. It returns any error that occured during the request. This is a
-// no-op if there were errors before.
-func (r *Request) Into(v interface{}) error {
-	if r.err != nil {
-		return r.err
-	}
-
-	resp := &api.Response{}
-
-	r.err = json.Unmarshal(r.respBody, resp)
-	if r.err != nil {
-		return r.err
-	}
-
-	return json.Unmarshal([]byte(resp.Data), v)
-}
-
-// Err returns the request error if there was one.
-func (r *Request) Err() error {
-	return r.err
+	return Response{err: createStatusError(resp.StatusCode, body)}
 }
 
 func createStatusError(statusCode int, body []byte) error {
@@ -167,7 +144,8 @@ func createStatusError(statusCode int, body []byte) error {
 
 	err := json.Unmarshal(body, resp)
 	if err != nil {
-		return err
+		log.Errorf("received bad error response body: %q, error was: %s", string(body), err)
+		return apierrors.NewStatusError(statusCode, fmt.Sprintf("server replied with: %s", string(body)))
 	}
 
 	return apierrors.NewExtendedStatusError(statusCode, resp.Message, resp.ErrorCode, resp.ErrorInfo)
