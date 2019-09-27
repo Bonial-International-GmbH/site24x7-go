@@ -78,6 +78,7 @@ type NotificationProfile struct {
 	TemplateID                  string   `json:"template_id,omitempty"`
 }
 
+<<<<<<< HEAD
 type LocationProfile struct {
 	ProfileID          string   `json:"profile_id"`
 	ProfileName        string   `json:"profile_name"`
