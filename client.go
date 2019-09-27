@@ -36,8 +36,7 @@ func (c *client) Monitors() endpoints.MonitorsEndpoint {
 }
 
 func (c *client) MonitorGroups() endpoints.MonitorGroupsEndpoint {
-	// TODO(mohmann) use monitorGroupsEndpoint here
-	return nil
+	return endpoints.NewMonitorGroupsEndpoint(c.restClient)
 }
 
 func (c *client) NotificationProfiles() endpoints.NotificationProfilesEndpoint {

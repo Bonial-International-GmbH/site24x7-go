@@ -52,8 +52,16 @@ type Monitor struct {
 	UseNameServer         bool              `json:"use_name_server"`
 }
 
-// @TODO(mohmann): add necessary fields
-type MonitorGroup struct{}
+// MonitorGroup organizes Monitor resources into groups.
+type MonitorGroup struct {
+	GroupID              string   `json: "group_id,omitempty"`
+	DisplayName          string   `json: "display_name"`
+	Description          string   `json: "description,omitempty"`
+	Monitors             []string `json: "monitors,omitempty"`
+	HealthThresholdCount int      `json: "health_threshold_count,omitempty"`
+	DependencyReourceID  string   `json: "dependency_resource_id,omitempty"`
+	SuppressAlert        bool     `json: "suppress_alert,omitempty"`
+}
 
 // @TODO(mohmann): add necessary fields
 type NotificationProfile struct{}

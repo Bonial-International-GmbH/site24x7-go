@@ -28,4 +28,14 @@ func main() {
 	for _, monitor := range monitors {
 		fmt.Printf("%+v\n\n", monitor)
 	}
+
+	monitorGroups, err := client.MonitorGroups().List()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, group := range monitorGroups {
+		fmt.Printf("%+v\n\n", group)
+	}
+
 }
