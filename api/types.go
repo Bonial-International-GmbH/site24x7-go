@@ -66,8 +66,13 @@ type MonitorGroup struct {
 // @TODO(mohmann): add necessary fields
 type NotificationProfile struct{}
 
-// @TODO(mohmann): add necessary fields
-type LocationProfile struct{}
+type LocationProfile struct {
+	ProfileID          string   `json: "profile_id"`
+	ProfileName        string   `json: "profile_name"`
+	PrimaryLocation    string   `json: "primary_location"`
+	SecondaryLocations []string `json: "secondary_locations,omitempty"`
+	RestrictAltLoc     bool     `json: "restrict_alt_loc,omitempty"`
+}
 
 // @TODO(mohmann): add necessary fields
 type ThresholdProfile struct{}

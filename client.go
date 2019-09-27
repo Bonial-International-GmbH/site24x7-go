@@ -27,8 +27,7 @@ func NewClient(httpClient *http.Client) Client {
 }
 
 func (c *client) LocationProfiles() endpoints.LocationProfilesEndpoint {
-	// TODO(mohmann) use locationProfilesEndpoint here
-	return nil
+	return endpoints.NewLocationProfilesEndpoint(c.restClient)
 }
 
 func (c *client) Monitors() endpoints.MonitorsEndpoint {
