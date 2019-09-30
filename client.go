@@ -5,6 +5,7 @@ import (
 	"net/http"
 
 	"github.com/Bonial-International-GmbH/site24x7-go/api/endpoints"
+	"github.com/Bonial-International-GmbH/site24x7-go/backoff"
 	"github.com/Bonial-International-GmbH/site24x7-go/oauth"
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
@@ -23,6 +24,24 @@ type Config struct {
 	// (as opposed to the user) to refresh the access token
 	// if it expires.
 	RefreshToken string
+
+	// RetryConfig contains the configuration of the backoff-retry behavior. If
+	// nil, backoff.DefaultRetryConfig will be used.
+	RetryConfig *backoff.RetryConfig
+}
+
+// OAuthClient creates a new *http.Client from c that transparently obtains and
+// attaches OAuth access tokens to every request.
+func (c *Config) OAuthClient(ctx context.Context) *http.Client {
+	oauthConfig := oauth.NewConfig(c.ClientID, c.ClientSecret, c.RefreshToken)
+
+	return oauthConfig.Client(ctx)
+}
+
+// HTTPClient is the interface of an http client that is compatible with
+// *http.Client.
+type HTTPClient interface {
+	Do(req *http.Request) (*http.Response, error)
 }
 
 // Client is the Site24x7 API Client interface. It provides methods to get
@@ -40,17 +59,20 @@ type client struct {
 	restClient rest.Client
 }
 
-// NewClientForConfig creates a new Site24x7 API Client for Config c.
-func NewClientForConfig(c Config) Client {
-	oauthConfig := oauth.NewConfig(c.ClientID, c.ClientSecret, c.RefreshToken)
-
-	httpClient := oauthConfig.Client(context.Background())
+// New creates a new Site24x7 API Client with Config c.
+func New(c Config) Client {
+	httpClient := backoff.WithRetries(
+		c.OAuthClient(context.Background()),
+		c.RetryConfig,
+	)
 
 	return NewClient(httpClient)
 }
 
-// NewClient creates a new Site24x7 API Client from httpClient.
-func NewClient(httpClient *http.Client) Client {
+// NewClient creates a new Site24x7 API Client from httpClient. This can be
+// used to provide a custom http client for use with the API. The custom http
+// client has to transparently handle the Site24x7 OAuth flow.
+func NewClient(httpClient HTTPClient) Client {
 	return &client{
 		restClient: rest.NewClient(httpClient),
 	}
