@@ -17,4 +17,20 @@ type notificationProfilesEndpoint struct {
 	client rest.Client
 }
 
-// TODO(mohmann) implement NotificationProfilesEndpoint interface here
+func NewNotificationProfilesEndpoint(client rest.Client) NotificationProfilesEndpoint {
+	return &notificationProfilesEndpoint{
+		client: client,
+	}
+}
+
+func (c *notificationProfilesEndpoint) Get(profileID string) (*api.NotificationProfile, error) {
+	profile := &api.NotificationProfile{}
+	err := c.client.
+		Get().
+		Resource("notification_profiles").
+		ResourceID(profileID).
+		Do().
+		Into(profile)
+
+	return profile, err
+}

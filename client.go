@@ -39,8 +39,7 @@ func (c *client) MonitorGroups() endpoints.MonitorGroupsEndpoint {
 }
 
 func (c *client) NotificationProfiles() endpoints.NotificationProfilesEndpoint {
-	// TODO(mohmann) use notificationProfilesEndpoint here
-	return nil
+	return endpoints.NewNotificationProfilesEndpoint(c.restClient)
 }
 
 func (c *client) ThresholdProfiles() endpoints.ThresholdProfilesEndpoint {

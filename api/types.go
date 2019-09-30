@@ -63,8 +63,20 @@ type MonitorGroup struct {
 	SuppressAlert        bool     `json:"suppress_alert,omitempty"`
 }
 
-// @TODO(mohmann): add necessary fields
-type NotificationProfile struct{}
+//NotificationProfile allows tweaking when alerts have to be sent out.
+type NotificationProfile struct {
+	ProfileID                   string   `json:"profile_id"`
+	ProfileName                 string   `json:"profile_name"`
+	RcaNeeded                   bool     `json:"rca_needed"`
+	NotifyAfterExecutingActions bool     `json:"notify_after_executing_actions"`
+	DowntimeNotificationDelay   []int    `json:"downtime_notification_delay,omitempty"`
+	PersistentNotification      int      `json:"persistent_notification,omitempty"`
+	EscalationUserGroupId       string   `json:"escalation_user_group_id,omitempty"`
+	EscalationWaitTime          int      `json:"escalation_wait_time"`
+	EscalationAutomations       []string `json:"escalation_automations,omitempty"`
+	EscalationServices          []string `json:"escalation_services,omitempty"`
+	TemplateID                  string   `json:"template_id,omitempty"`
+}
 
 type LocationProfile struct {
 	ProfileID          string   `json:"profile_id"`

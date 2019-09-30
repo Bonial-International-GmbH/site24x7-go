@@ -1,4 +1,5 @@
 .cover
+.swp
 coverage.txt
 /dist
 /vendor
