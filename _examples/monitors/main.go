@@ -14,7 +14,7 @@ func main() {
 		RefreshToken: os.Getenv("REFRESH_TOKEN"),
 	}
 
-	client := site24x7.NewClientForConfig(config)
+	client := site24x7.New(config)
 
 	monitors, err := client.Monitors().List()
 	if err != nil {
