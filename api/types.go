@@ -27,22 +27,6 @@ type ActionRef struct {
 	AlertType Status `json:"alert_type"`
 }
 
-type ContentChange struct {
-	Trouble string `json:"trouble"`
-}
-
-type ResponseThresholdContent struct {
-	Trouble            string `json:"trouble"`
-	ComparisonOperator string `json:"comparison_operator"`
-	PollsCheck         string `json:"polls_check"`
-	Strategy           string `json:"strategy"`
-}
-
-type ResponseThreshold struct {
-	Primary   ResponseThresholdContent `json:"primary"`
-	Secondary ResponseThresholdContent `json: "secondary"`
-}
-
 // Monitor performance of websites and internet services
 type Monitor struct {
 	MonitorID             string            `json:"monitor_id,omitempty"`
@@ -106,13 +90,13 @@ type LocationProfile struct {
 
 // ThresholdProfile help the alarms engine to decide if a specific resource has to be declared critical or down
 type ThresholdProfile struct {
-	ProfileID              string              `json:"profile_id"`
-	Type                   string              `json:"type"`
-	ProfileName            string              `json:"profile_name"`
-	DownLocationThreshold  int                 `json:"down_location_threshold"`
-	WebsiteContentModified bool                `json:"website_content_modified,omitempty"`
-	WebsiteContentChanges  []ContentChange     `json:website_content_changes,omitempty"`
-	ResponseTimeThreshold  []ResponseThreshold `json:"response_time_threshold,omitempty"`
+	ProfileID              string      `json:"profile_id"`
+	Type                   string      `json:"type"`
+	ProfileName            string      `json:"profile_name"`
+	DownLocationThreshold  int         `json:"down_location_threshold"`
+	WebsiteContentModified bool        `json:"website_content_modified,omitempty"`
+	WebsiteContentChanges  interface{} `json:"website_content_changes,omitempty"`
+	ResponseTimeThreshold  interface{} `json:"response_time_threshold,omitempty"`
 }
 
 // @TODO(mohmann): add necessary fields
