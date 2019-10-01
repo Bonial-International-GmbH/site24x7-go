@@ -100,8 +100,7 @@ func (c *client) NotificationProfiles() endpoints.NotificationProfilesEndpoint {
 
 // ThresholdProfiles implements Client.
 func (c *client) ThresholdProfiles() endpoints.ThresholdProfilesEndpoint {
-	// TODO(mohmann) use thresholdProfilesEndpoint here
-	return nil
+	return endpoints.NewThresholdProfilesEndpoint(c.restClient)
 }
 
 // UserGroups implements Client.
