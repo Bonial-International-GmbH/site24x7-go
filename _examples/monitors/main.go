@@ -42,4 +42,13 @@ func main() {
 	for _, profile := range locationProfiles {
 		fmt.Printf("%+v\n\n", profile)
 	}
+
+	notificationProfiles, err := client.NotificationProfiles().List()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, profile := range notificationProfiles {
+		fmt.Printf("%+v\n\n", profile)
+	}
 }

@@ -95,8 +95,7 @@ func (c *client) MonitorGroups() endpoints.MonitorGroupsEndpoint {
 
 // NotificationProfiles implements Client.
 func (c *client) NotificationProfiles() endpoints.NotificationProfilesEndpoint {
-	// TODO(mohmann) use notificationProfilesEndpoint here
-	return nil
+	return endpoints.NewNotificationProfilesEndpoint(c.restClient)
 }
 
 // ThresholdProfiles implements Client.
