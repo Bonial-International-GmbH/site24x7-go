@@ -54,20 +54,37 @@ type Monitor struct {
 
 // MonitorGroup organizes Monitor resources into groups.
 type MonitorGroup struct {
-	GroupID              string   `json: "group_id,omitempty"`
-	DisplayName          string   `json: "display_name"`
-	Description          string   `json: "description,omitempty"`
-	Monitors             []string `json: "monitors,omitempty"`
-	HealthThresholdCount int      `json: "health_threshold_count,omitempty"`
-	DependencyReourceID  string   `json: "dependency_resource_id,omitempty"`
-	SuppressAlert        bool     `json: "suppress_alert,omitempty"`
+	GroupID              string   `json:"group_id,omitempty"`
+	DisplayName          string   `json:"display_name"`
+	Description          string   `json:"description,omitempty"`
+	Monitors             []string `json:"monitors,omitempty"`
+	HealthThresholdCount int      `json:"health_threshold_count,omitempty"`
+	DependencyReourceID  string   `json:"dependency_resource_id,omitempty"`
+	SuppressAlert        bool     `json:"suppress_alert,omitempty"`
 }
 
-// @TODO(mohmann): add necessary fields
-type NotificationProfile struct{}
+// NotificationProfile allows tweaking when alerts have to be sent out.
+type NotificationProfile struct {
+	ProfileID                   string   `json:"profile_id"`
+	ProfileName                 string   `json:"profile_name"`
+	RcaNeeded                   bool     `json:"rca_needed"`
+	NotifyAfterExecutingActions bool     `json:"notify_after_executing_actions"`
+	DowntimeNotificationDelay   []int    `json:"downtime_notification_delay,omitempty"`
+	PersistentNotification      int      `json:"persistent_notification,omitempty"`
+	EscalationUserGroupId       string   `json:"escalation_user_group_id,omitempty"`
+	EscalationWaitTime          int      `json:"escalation_wait_time"`
+	EscalationAutomations       []string `json:"escalation_automations,omitempty"`
+	EscalationServices          []string `json:"escalation_services,omitempty"`
+	TemplateID                  string   `json:"template_id,omitempty"`
+}
 
-// @TODO(mohmann): add necessary fields
-type LocationProfile struct{}
+type LocationProfile struct {
+	ProfileID          string   `json:"profile_id"`
+	ProfileName        string   `json:"profile_name"`
+	PrimaryLocation    string   `json:"primary_location"`
+	SecondaryLocations []string `json:"secondary_locations,omitempty"`
+	RestrictAltLoc     bool     `json:"restrict_alt_loc,omitempty"`
+}
 
 // @TODO(mohmann): add necessary fields
 type ThresholdProfile struct{}

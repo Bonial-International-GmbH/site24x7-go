@@ -34,4 +34,12 @@ func main() {
 		fmt.Printf("%+v\n\n", group)
 	}
 
+	locationProfiles, err := client.LocationProfiles().List()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, profile := range locationProfiles {
+		fmt.Printf("%+v\n\n", profile)
+	}
 }
