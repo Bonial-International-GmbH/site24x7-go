@@ -17,4 +17,67 @@ type thresholdProfilesEndpoint struct {
 	client rest.Client
 }
 
-// TODO(mohmann) implement ThresholdProfilesEndpoint interface here
+func NewThresholdProfilesEndpoint(client rest.Client) ThresholdProfilesEndpoint {
+	return &thresholdProfilesEndpoint{
+		client: client,
+	}
+}
+
+func (c *thresholdProfilesEndpoint) Get(profileID string) (*api.ThresholdProfile, error) {
+	profile := &api.ThresholdProfile{}
+	err := c.client.
+		Get().
+		Resource("threshold_profiles").
+		ResourceID(profileID).
+		Do().
+		Into(profile)
+
+	return profile, err
+}
+
+func (c *thresholdProfilesEndpoint) Create(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
+	newThresholdProfile := &api.ThresholdProfile{}
+	err := c.client.
+		Post().
+		Resource("threshold_profiles").
+		AddHeader("Content-Type", "application/json;charset=UTF-8").
+		Body(profile).
+		Do().
+		Into(newThresholdProfile)
+
+	return newThresholdProfile, err
+}
+
+func (c *thresholdProfilesEndpoint) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
+	updatedThresholdProfile := &api.ThresholdProfile{}
+	err := c.client.
+		Put().
+		Resource("threshold_profiles").
+		ResourceID(profile.ProfileID).
+		AddHeader("Content-Type", "application/json;charset=UTF-8").
+		Body(profile).
+		Do().
+		Into(updatedThresholdProfile)
+
+	return updatedThresholdProfile, err
+}
+
+func (c *thresholdProfilesEndpoint) Delete(profileID string) error {
+	return c.client.
+		Delete().
+		Resource("threshold_profiles").
+		ResourceID(profileID).
+		Do().
+		Err()
+}
+
+func (c *thresholdProfilesEndpoint) List() ([]*api.ThresholdProfile, error) {
+	thresholdProfiles := []*api.ThresholdProfile{}
+	err := c.client.
+		Get().
+		Resource("threshold_profiles").
+		Do().
+		Into(&thresholdProfiles)
+
+	return thresholdProfiles, err
+}

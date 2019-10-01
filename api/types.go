@@ -88,8 +88,16 @@ type LocationProfile struct {
 	RestrictAltLoc     bool     `json:"restrict_alt_loc,omitempty"`
 }
 
-// @TODO(mohmann): add necessary fields
-type ThresholdProfile struct{}
+// ThresholdProfile help the alarms engine to decide if a specific resource has to be declared critical or down
+type ThresholdProfile struct {
+	ProfileID              string      `json:"profile_id"`
+	Type                   string      `json:"type"`
+	ProfileName            string      `json:"profile_name"`
+	DownLocationThreshold  int         `json:"down_location_threshold"`
+	WebsiteContentModified bool        `json:"website_content_modified,omitempty"`
+	WebsiteContentChanges  interface{} `json:"website_content_changes,omitempty"`
+	ResponseTimeThreshold  interface{} `json:"response_time_threshold,omitempty"`
+}
 
 // @TODO(mohmann): add necessary fields
 type UserGroup struct{}
