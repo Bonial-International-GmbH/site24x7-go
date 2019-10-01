@@ -27,6 +27,7 @@ type ActionRef struct {
 	AlertType Status `json:"alert_type"`
 }
 
+// Monitor performance of websites and internet services
 type Monitor struct {
 	MonitorID             string            `json:"monitor_id,omitempty"`
 	DisplayName           string            `json:"display_name"`
@@ -65,7 +66,7 @@ type MonitorGroup struct {
 
 // NotificationProfile allows tweaking when alerts have to be sent out.
 type NotificationProfile struct {
-	ProfileID                   string   `json:"profile_id"`
+	ProfileID                   string   `json:"profile_id,omitempty"`
 	ProfileName                 string   `json:"profile_name"`
 	RcaNeeded                   bool     `json:"rca_needed"`
 	NotifyAfterExecutingActions bool     `json:"notify_after_executing_actions"`
@@ -78,8 +79,9 @@ type NotificationProfile struct {
 	TemplateID                  string   `json:"template_id,omitempty"`
 }
 
+// LocationProfiles make it convenient to set monitoring locations consistently across many websites or monitors
 type LocationProfile struct {
-	ProfileID          string   `json:"profile_id"`
+	ProfileID          string   `json:"profile_id,omitempty"`
 	ProfileName        string   `json:"profile_name"`
 	PrimaryLocation    string   `json:"primary_location"`
 	SecondaryLocations []string `json:"secondary_locations,omitempty"`
