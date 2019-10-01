@@ -80,8 +80,7 @@ func NewClient(httpClient HTTPClient) Client {
 
 // LocationProfiles implements Client.
 func (c *client) LocationProfiles() endpoints.LocationProfilesEndpoint {
-	// TODO(mohmann) use locationProfilesEndpoint here
-	return nil
+	return endpoints.NewLocationProfilesEndpoint(c.restClient)
 }
 
 // Monitors implements Client.
