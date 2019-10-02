@@ -105,6 +105,5 @@ func (c *client) ThresholdProfiles() endpoints.ThresholdProfilesEndpoint {
 
 // UserGroups implements Client.
 func (c *client) UserGroups() endpoints.UserGroupsEndpoint {
-	// TODO(mohmann) use userGroupsEndpoint here
-	return nil
+	return endpoints.NewUserGroupsEndpoint(c.restClient)
 }
