@@ -99,5 +99,10 @@ type ThresholdProfile struct {
 	ResponseTimeThreshold  interface{} `json:"response_time_threshold,omitempty"`
 }
 
-// @TODO(mohmann): add necessary fields
-type UserGroup struct{}
+// UserGroup help organize individuals so that they receive alerts and reports based on their responsibility.
+type UserGroup struct {
+	UserGroupID      string   `json:"user_group_id,omitempty"`
+	DisplayName      string   `json:"display_name"`
+	Users            []string `json:"users"`
+	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
+}
