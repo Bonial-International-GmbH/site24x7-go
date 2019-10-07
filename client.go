@@ -10,6 +10,11 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
+const (
+	// APIBaseURL is the base url of the Site24x7 API.
+	APIBaseURL = "https://www.site24x7.com/api"
+)
+
 // Config is the configuration for the Site24x7 API Client.
 type Config struct {
 	// ClientID is the OAuth client ID needed to obtain an access token for API
@@ -74,7 +79,7 @@ func New(c Config) Client {
 // client has to transparently handle the Site24x7 OAuth flow.
 func NewClient(httpClient HTTPClient) Client {
 	return &client{
-		restClient: rest.NewClient(httpClient),
+		restClient: rest.NewClient(httpClient, APIBaseURL),
 	}
 }
 

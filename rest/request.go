@@ -13,31 +13,26 @@ import (
 	log "github.com/sirupsen/logrus"
 )
 
-const (
-	// BasePath is the root url of the Site24x7 API.
-	BasePath = "https://www.site24x7.com/api"
-)
-
 // Request is a wrapper for preparing and sending a *http.Request. It provides
 // funtionality for encoding arbitrary types to the wire format and back.
 type Request struct {
 	client     HTTPClient
+	baseURL    string
 	resource   string
 	resourceID string
 	header     http.Header
 	verb       string
 	body       []byte
-	respBody   []byte
-	resp       *http.Response
 	err        error
 }
 
 // NewRequest creates a new *Request which uses client to send out the prepared
 // *http.Request.
-func NewRequest(client HTTPClient, verb string) *Request {
+func NewRequest(client HTTPClient, verb, baseURL string) *Request {
 	r := &Request{
-		client: client,
-		verb:   verb,
+		client:  client,
+		baseURL: baseURL,
+		verb:    verb,
 	}
 
 	r.AddHeader("Accept", "application/json; version=2.0")
@@ -61,7 +56,7 @@ func (r *Request) ResourceID(resourceID string) *Request {
 	return r
 }
 
-// AddHeader adds a HTTP header to the request.
+// AddHeader adds an HTTP header to the request.
 func (r *Request) AddHeader(key, value string) *Request {
 	if r.header == nil {
 		r.header = http.Header{}
@@ -78,7 +73,7 @@ func (r *Request) Body(v interface{}) *Request {
 }
 
 func (r *Request) buildRawURL() string {
-	rawURL := BasePath + "/" + r.resource
+	rawURL := r.baseURL + "/" + r.resource
 	if r.resourceID != "" {
 		rawURL += "/" + r.resourceID
 	}

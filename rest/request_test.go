@@ -13,17 +13,17 @@ import (
 )
 
 func TestRequestSetsHeader(t *testing.T) {
-	r := NewRequest(nil, "GET")
+	r := NewRequest(nil, "GET", "")
 
 	assert.Empty(t, r.header.Get("Content-Type"))
 
-	r = NewRequest(nil, "GET").AddHeader("Content-Type", "application/json")
+	r = NewRequest(nil, "GET", "").AddHeader("Content-Type", "application/json")
 
 	assert.Equal(t, "application/json", r.header.Get("Content-Type"))
 }
 
 func TestRequestSetsJSONBody(t *testing.T) {
-	r := NewRequest(nil, "GET").
+	r := NewRequest(nil, "GET", "").
 		Body(map[string]string{"foo": "bar"})
 
 	require.NoError(t, r.err)
@@ -31,7 +31,7 @@ func TestRequestSetsJSONBody(t *testing.T) {
 }
 
 func TestRequestSetsErrorOnInvalidBody(t *testing.T) {
-	r := NewRequest(nil, "GET").
+	r := NewRequest(nil, "GET", "").
 		Body(func() {})
 
 	require.Error(t, r.err)
@@ -41,22 +41,21 @@ func TestRequestSetsErrorOnInvalidBody(t *testing.T) {
 func TestRequestIsNotSentOnPreviousError(t *testing.T) {
 	c := newFakeHTTPClient()
 
-	r := NewRequest(c, "GET")
+	r := NewRequest(c, "GET", "")
 	r.err = errors.New("whoops")
 
-	r.Do()
+	resp := r.Do()
 
+	assert.Error(t, resp.Err())
 	assert.Equal(t, 0, c.called)
 }
 
 func TestRequestBuildRequest(t *testing.T) {
-	c := &fakeHTTPClient{}
-
 	body := map[string]string{
 		"foo": "bar",
 	}
 
-	r := NewRequest(c, "DELETE").
+	r := NewRequest(nil, "DELETE", "").
 		Resource("foos").
 		ResourceID("123").
 		Body(body)
@@ -66,7 +65,7 @@ func TestRequestBuildRequest(t *testing.T) {
 	require.NoError(t, err)
 
 	assert.Equal(t, "DELETE", req.Method)
-	assert.Equal(t, "/api/foos/123", req.URL.Path)
+	assert.Equal(t, "/foos/123", req.URL.Path)
 
 	buf, err := ioutil.ReadAll(req.Body)
 
@@ -80,7 +79,7 @@ func TestRequestDo(t *testing.T) {
 		WithStatusCode(200).
 		WithResponseBody([]byte(`{"data":{"foo":"bar"}}`))
 
-	resp := NewRequest(c, "POST").
+	resp := NewRequest(c, "POST", "").
 		Resource("foos").
 		ResourceID("123").
 		Do()
@@ -94,23 +93,16 @@ func TestRequestDoConvertsHTTPErrorsToStatusError(t *testing.T) {
 		WithStatusCode(404).
 		WithResponseBody([]byte(`{"error_code":456,"message":"not found","error_info":{"foo":"bar"}}`))
 
-	err := NewRequest(c, "PUT").
+	err := NewRequest(c, "PUT", "").
 		Resource("foos").
 		ResourceID("123").
 		Do().
 		Err()
 
-	require.Error(t, err)
+	expectedErr := apierrors.NewExtendedStatusError(404, "not found", 456, map[string]interface{}{"foo": "bar"})
 
-	statusErr, ok := err.(apierrors.ExtendedStatusError)
-	if !ok {
-		t.Fatalf("expected ExtendedStatusError, got %T", err)
-	}
-
-	assert.Equal(t, 404, statusErr.StatusCode())
-	assert.Equal(t, 456, statusErr.ErrorCode())
-	assert.Equal(t, "not found", statusErr.Error())
-	assert.Equal(t, map[string]interface{}{"foo": "bar"}, statusErr.ErrorInfo())
+	assert.True(t, apierrors.IsExtendedStatusError(err))
+	assert.Equal(t, expectedErr, err)
 }
 
 func TestRequestDoFallsBackToStatusErrorIfErrorResponseBodyIsInvalid(t *testing.T) {
@@ -118,22 +110,17 @@ func TestRequestDoFallsBackToStatusErrorIfErrorResponseBodyIsInvalid(t *testing.
 		WithStatusCode(400).
 		WithResponseBody([]byte(`{`))
 
-	err := NewRequest(c, "PUT").
+	err := NewRequest(c, "PUT", "").
 		Resource("foos").
 		ResourceID("123").
 		Body(nil).
 		Do().
 		Err()
 
-	require.Error(t, err)
+	expectedErr := apierrors.NewStatusError(400, "server replied with: {")
 
-	statusErr, ok := err.(apierrors.StatusError)
-	if !ok {
-		t.Fatalf("expected StatusError, got %T", err)
-	}
-
-	assert.Equal(t, 400, statusErr.StatusCode())
-	assert.Equal(t, "server replied with: {", statusErr.Error())
+	assert.True(t, apierrors.IsStatusError(err))
+	assert.Equal(t, expectedErr, err)
 }
 
 type fakeHTTPClient struct {
