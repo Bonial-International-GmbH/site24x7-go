@@ -1,0 +1,9 @@
+{
+  "display_name": "FooUserGroup",
+  "attribute_group_id" :"9876",
+  "users": [
+    "123",
+    "987654",
+    "987"
+  ]
+}
