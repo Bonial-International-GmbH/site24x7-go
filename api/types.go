@@ -95,8 +95,6 @@ type ThresholdProfile struct {
 	ProfileName            string `json:"profile_name"`
 	DownLocationThreshold  int    `json:"down_location_threshold"`
 	WebsiteContentModified bool   `json:"website_content_modified,omitempty"`
-	//	WebsiteContentChanges  interface{} `json:"website_content_changes,omitempty"`
-	//	ResponseTimeThreshold  interface{} `json:"response_time_threshold,omitempty"`
 }
 
 // UserGroup help organize individuals so that they receive alerts and reports based on their responsibility.
