@@ -14,7 +14,7 @@ type Response struct {
 }
 
 // Into unmarshals the response body into v. The passed in value must be a
-// pointer. It returns any error that occured during the request. This is a
+// pointer. It returns any error that occurred during the request. This is a
 // no-op if there were errors before.
 func (r Response) Into(v interface{}) error {
 	if r.err != nil {
