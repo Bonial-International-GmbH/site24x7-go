@@ -64,8 +64,8 @@ func main() {
 		panic(err)
 	}
 
-  fmt.Printf("Monitor %q created (ID: %s)\n", monitor.DisplayName, monitor.MonitorID)
-  fmt.Printf("%+v\n\n", monitor)
+	fmt.Printf("Monitor %q created (ID: %s)\n", monitor.DisplayName, monitor.MonitorID)
+	fmt.Printf("%+v\n\n", monitor)
 }
 ```
 
