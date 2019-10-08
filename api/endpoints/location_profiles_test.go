@@ -50,7 +50,7 @@ func TestLocationProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_location_profile.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				location_profile, err := NewLocationProfilesEndpoint(c).Get("12341234")
+				locationProfile, err := NewLocationProfilesEndpoint(c).Get("12341234")
 				require.NoError(t, err)
 
 				expected := &api.LocationProfile{
@@ -64,7 +64,7 @@ func TestLocationProfiles(t *testing.T) {
 						"1",
 					},
 				}
-				assert.Equal(t, expected, location_profile)
+				assert.Equal(t, expected, locationProfile)
 			},
 		},
 		{
@@ -74,7 +74,7 @@ func TestLocationProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_location_profiles.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				location_profiles, err := NewLocationProfilesEndpoint(c).List()
+				locationProfiles, err := NewLocationProfilesEndpoint(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.LocationProfile{
@@ -95,7 +95,7 @@ func TestLocationProfiles(t *testing.T) {
 					},
 				}
 
-				assert.Equal(t, expected, location_profiles)
+				assert.Equal(t, expected, locationProfiles)
 			},
 		},
 		{
@@ -108,9 +108,9 @@ func TestLocationProfiles(t *testing.T) {
 				"profile_name": "TEST_Profile_update",
 			}),
 			fn: func(t *testing.T, c rest.Client) {
-				location_profile := &api.LocationProfile{ProfileID: "456", ProfileName: "TEST_Profile_update"}
+				locationProfile := &api.LocationProfile{ProfileID: "456", ProfileName: "TEST_Profile_update"}
 
-				location_profile, err := NewLocationProfilesEndpoint(c).Update(location_profile)
+				locationProfile, err := NewLocationProfilesEndpoint(c).Update(locationProfile)
 				require.NoError(t, err)
 
 				expected := &api.LocationProfile{
@@ -118,7 +118,7 @@ func TestLocationProfiles(t *testing.T) {
 					ProfileName: "TEST_Profile_update",
 				}
 
-				assert.Equal(t, expected, location_profile)
+				assert.Equal(t, expected, locationProfile)
 			},
 		},
 		{
