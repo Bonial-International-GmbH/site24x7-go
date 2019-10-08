@@ -30,7 +30,7 @@ func TestLocationProfiles(t *testing.T) {
 						"1",
 					},
 				}
-				profile, err := NewLocationProfilesEndpoint(c).Create(profile)
+				_, err := NewLocationProfilesEndpoint(c).Create(profile)
 				require.NoError(t, err)
 			},
 		},
