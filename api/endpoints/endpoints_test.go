@@ -43,7 +43,10 @@ func runEndpointTest(t *testing.T, test *endpointTest) {
 		}
 
 		w.WriteHeader(test.statusCode)
-		w.Write(test.responseBody)
+		_, err := w.Write(test.responseBody)
+		if err != nil {
+			t.Fatal(err)
+		}
 	})
 
 	server := httptest.NewServer(handler)
