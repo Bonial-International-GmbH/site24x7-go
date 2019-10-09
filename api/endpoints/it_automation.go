@@ -5,26 +5,26 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type ItAutomationEndpoint interface {
-	Get(actionID string) (*api.ItAutomation, error)
-	Create(automation *api.ItAutomation) (*api.ItAutomation, error)
-	Update(automation *api.ItAutomation) (*api.ItAutomation, error)
+type ITAutomationsEndpoint interface {
+	Get(actionID string) (*api.ITAutomations, error)
+	Create(automation *api.ITAutomations) (*api.ITAutomations, error)
+	Update(automation *api.ITAutomations) (*api.ITAutomations, error)
 	Delete(actionID string) error
-	List() ([]*api.ItAutomation, error)
+	List() ([]*api.ITAutomations, error)
 }
 
-type itAutomationEndpoint struct {
+type itAutomationsEndpoint struct {
 	client rest.Client
 }
 
-func NewItAutomationEndpoint(client rest.Client) ItAutomationEndpoint {
-	return &itAutomationEndpoint{
+func NewITAutomationsEndpoint(client rest.Client) ITAutomationsEndpoint {
+	return &itAutomationsEndpoint{
 		client: client,
 	}
 }
 
-func (c *itAutomationEndpoint) Get(actionID string) (*api.ItAutomation, error) {
-	automation := &api.ItAutomation{}
+func (c *itAutomationsEndpoint) Get(actionID string) (*api.ITAutomations, error) {
+	automation := &api.ITAutomations{}
 	err := c.client.
 		Get().
 		Resource("it_automation").
@@ -35,21 +35,21 @@ func (c *itAutomationEndpoint) Get(actionID string) (*api.ItAutomation, error) {
 	return automation, err
 }
 
-func (c *itAutomationEndpoint) Create(automation *api.ItAutomation) (*api.ItAutomation, error) {
-	newItAutomation := &api.ItAutomation{}
+func (c *itAutomationsEndpoint) Create(automation *api.ITAutomations) (*api.ITAutomations, error) {
+	newITAutomation := &api.ITAutomations{}
 	err := c.client.
 		Post().
 		Resource("it_automation").
 		AddHeader("Content-Type", "application/json;charset=UTF-8").
 		Body(automation).
 		Do().
-		Into(newItAutomation)
+		Into(newITAutomation)
 
-	return newItAutomation, err
+	return newITAutomation, err
 }
 
-func (c *itAutomationEndpoint) Update(automation *api.ItAutomation) (*api.ItAutomation, error) {
-	itAutomation := &api.ItAutomation{}
+func (c *itAutomationsEndpoint) Update(automation *api.ITAutomations) (*api.ITAutomations, error) {
+	itAutomation := &api.ITAutomations{}
 	err := c.client.
 		Put().
 		Resource("it_automation").
@@ -62,7 +62,7 @@ func (c *itAutomationEndpoint) Update(automation *api.ItAutomation) (*api.ItAuto
 	return itAutomation, err
 }
 
-func (c *itAutomationEndpoint) Delete(actionID string) error {
+func (c *itAutomationsEndpoint) Delete(actionID string) error {
 	return c.client.
 		Delete().
 		Resource("it_automation").
@@ -71,8 +71,8 @@ func (c *itAutomationEndpoint) Delete(actionID string) error {
 		Err()
 }
 
-func (c *itAutomationEndpoint) List() ([]*api.ItAutomation, error) {
-	itAutomation := []*api.ItAutomation{}
+func (c *itAutomationsEndpoint) List() ([]*api.ITAutomations, error) {
+	itAutomation := []*api.ITAutomations{}
 	err := c.client.
 		Get().
 		Resource("it_automation").

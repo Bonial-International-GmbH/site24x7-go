@@ -105,9 +105,9 @@ type UserGroup struct {
 	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
 }
 
-// ItAutomation prioritize and remediate routine actions automatically,
+// ITAutomations prioritize and remediate routine actions automatically,
 // increase IT efficiency and streamline your processes to reduce performance degrade
-type ItAutomation struct {
+type ITAutomations struct {
 	ActionID               string `json:"action_id,omitempty"`
 	ActionName             string `json:"action_name"`
 	ActionUrl              string `json:"action_url"`
@@ -122,6 +122,6 @@ type ItAutomation struct {
 	AuthMethod             string `json:"auth_method,omitempty"`
 	Username               string `json:"username,omitempty"`
 	Password               string `json:"password,omitempty"`
-	Oauth2Provider         string `json:"oauth2_provider,omitempty"`
+	OAuth2Provider         string `json:"oauth2_provider,omitempty"`
 	UserAgent              string `json:"user_agent,omitempty"`
 }

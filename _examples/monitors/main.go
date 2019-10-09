@@ -54,12 +54,12 @@ func main() {
 		fmt.Printf("%+v\n\n", profile)
 	}
 
-	itAutomation, err := client.ItAutomation().List()
+	itAutomations, err := client.ITAutomations().List()
 	if err != nil {
 		panic(err)
 	}
 
-	for _, automation := range itAutomation {
+	for _, automation := range itAutomations {
 		fmt.Printf("%+v\n\n", automation)
 	}
 }
