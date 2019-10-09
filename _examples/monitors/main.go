@@ -5,9 +5,11 @@ import (
 	"os"
 
 	site24x7 "github.com/Bonial-International-GmbH/site24x7-go"
+	"github.com/sirupsen/logrus"
 )
 
 func main() {
+	logrus.SetLevel(logrus.DebugLevel)
 	config := site24x7.Config{
 		ClientID:     os.Getenv("CLIENT_ID"),
 		ClientSecret: os.Getenv("CLIENT_SECRET"),
@@ -50,5 +52,14 @@ func main() {
 
 	for _, profile := range notificationProfiles {
 		fmt.Printf("%+v\n\n", profile)
+	}
+
+	itAutomations, err := client.ITAutomations().List()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, automation := range itAutomations {
+		fmt.Printf("%+v\n\n", automation)
 	}
 }

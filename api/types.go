@@ -70,7 +70,7 @@ type NotificationProfile struct {
 	ProfileName                 string   `json:"profile_name"`
 	RcaNeeded                   bool     `json:"rca_needed"`
 	NotifyAfterExecutingActions bool     `json:"notify_after_executing_actions"`
-	DowntimeNotificationDelay   []int    `json:"downtime_notification_delay,omitempty"`
+	DowntimeNotificationDelay   int      `json:"downtime_notification_delay,omitempty"`
 	PersistentNotification      int      `json:"persistent_notification,omitempty"`
 	EscalationUserGroupId       string   `json:"escalation_user_group_id,omitempty"`
 	EscalationWaitTime          int      `json:"escalation_wait_time"`
@@ -103,4 +103,25 @@ type UserGroup struct {
 	DisplayName      string   `json:"display_name"`
 	Users            []string `json:"users"`
 	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
+}
+
+// ITAutomations prioritize and remediate routine actions automatically,
+// increase IT efficiency and streamline your processes to reduce performance degrade
+type ITAutomation struct {
+	ActionID               string `json:"action_id,omitempty"`
+	ActionName             string `json:"action_name"`
+	ActionUrl              string `json:"action_url"`
+	ActionTimeout          int    `json:"action_timeout"`
+	ActionType             int    `json:"action_type"`
+	ActionMethod           string `json:"action_method"`
+	SuppressAlert          bool   `json:"suppress_alert,omitempty"`
+	SendIncidentParameters bool   `json:"send_incident_parameters,omitempty"`
+	SendCustomParameters   bool   `json:"send_custom_parameters,omitempty"`
+	CustomParameters       string `json:"custom_parameters"`
+	SendInJsonFormat       bool   `json:"send_in_json_format,omitempty"`
+	AuthMethod             string `json:"auth_method,omitempty"`
+	Username               string `json:"username,omitempty"`
+	Password               string `json:"password,omitempty"`
+	OAuth2Provider         string `json:"oauth2_provider,omitempty"`
+	UserAgent              string `json:"user_agent,omitempty"`
 }
