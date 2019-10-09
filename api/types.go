@@ -107,7 +107,7 @@ type UserGroup struct {
 
 // ITAutomations prioritize and remediate routine actions automatically,
 // increase IT efficiency and streamline your processes to reduce performance degrade
-type ITAutomations struct {
+type ITAutomation struct {
 	ActionID               string `json:"action_id,omitempty"`
 	ActionName             string `json:"action_name"`
 	ActionUrl              string `json:"action_url"`

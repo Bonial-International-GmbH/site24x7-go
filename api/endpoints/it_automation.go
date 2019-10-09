@@ -6,11 +6,11 @@ import (
 )
 
 type ITAutomationsEndpoint interface {
-	Get(actionID string) (*api.ITAutomations, error)
-	Create(automation *api.ITAutomations) (*api.ITAutomations, error)
-	Update(automation *api.ITAutomations) (*api.ITAutomations, error)
+	Get(actionID string) (*api.ITAutomation, error)
+	Create(automation *api.ITAutomation) (*api.ITAutomation, error)
+	Update(automation *api.ITAutomation) (*api.ITAutomation, error)
 	Delete(actionID string) error
-	List() ([]*api.ITAutomations, error)
+	List() ([]*api.ITAutomation, error)
 }
 
 type itAutomationsEndpoint struct {
@@ -23,8 +23,8 @@ func NewITAutomationsEndpoint(client rest.Client) ITAutomationsEndpoint {
 	}
 }
 
-func (c *itAutomationsEndpoint) Get(actionID string) (*api.ITAutomations, error) {
-	automation := &api.ITAutomations{}
+func (c *itAutomationsEndpoint) Get(actionID string) (*api.ITAutomation, error) {
+	automation := &api.ITAutomation{}
 	err := c.client.
 		Get().
 		Resource("it_automation").
@@ -35,8 +35,8 @@ func (c *itAutomationsEndpoint) Get(actionID string) (*api.ITAutomations, error)
 	return automation, err
 }
 
-func (c *itAutomationsEndpoint) Create(automation *api.ITAutomations) (*api.ITAutomations, error) {
-	newITAutomation := &api.ITAutomations{}
+func (c *itAutomationsEndpoint) Create(automation *api.ITAutomation) (*api.ITAutomation, error) {
+	newITAutomation := &api.ITAutomation{}
 	err := c.client.
 		Post().
 		Resource("it_automation").
@@ -48,8 +48,8 @@ func (c *itAutomationsEndpoint) Create(automation *api.ITAutomations) (*api.ITAu
 	return newITAutomation, err
 }
 
-func (c *itAutomationsEndpoint) Update(automation *api.ITAutomations) (*api.ITAutomations, error) {
-	itAutomation := &api.ITAutomations{}
+func (c *itAutomationsEndpoint) Update(automation *api.ITAutomation) (*api.ITAutomation, error) {
+	itAutomation := &api.ITAutomation{}
 	err := c.client.
 		Put().
 		Resource("it_automation").
@@ -71,8 +71,8 @@ func (c *itAutomationsEndpoint) Delete(actionID string) error {
 		Err()
 }
 
-func (c *itAutomationsEndpoint) List() ([]*api.ITAutomations, error) {
-	itAutomation := []*api.ITAutomations{}
+func (c *itAutomationsEndpoint) List() ([]*api.ITAutomation, error) {
+	itAutomation := []*api.ITAutomation{}
 	err := c.client.
 		Get().
 		Resource("it_automation").
