@@ -5,7 +5,7 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type UserGroupsEndpoint interface {
+type UserGroups interface {
 	Get(groupID string) (*api.UserGroup, error)
 	Create(group *api.UserGroup) (*api.UserGroup, error)
 	Update(group *api.UserGroup) (*api.UserGroup, error)
@@ -13,17 +13,17 @@ type UserGroupsEndpoint interface {
 	List() ([]*api.UserGroup, error)
 }
 
-type userGroupsEndpoint struct {
+type userGroups struct {
 	client rest.Client
 }
 
-func NewUserGroupsEndpoint(client rest.Client) UserGroupsEndpoint {
-	return &userGroupsEndpoint{
+func NewUserGroups(client rest.Client) UserGroups {
+	return &userGroups{
 		client: client,
 	}
 }
 
-func (c *userGroupsEndpoint) Get(groupID string) (*api.UserGroup, error) {
+func (c *userGroups) Get(groupID string) (*api.UserGroup, error) {
 	userGroup := &api.UserGroup{}
 	err := c.client.
 		Get().
@@ -35,7 +35,7 @@ func (c *userGroupsEndpoint) Get(groupID string) (*api.UserGroup, error) {
 	return userGroup, err
 }
 
-func (c *userGroupsEndpoint) Create(group *api.UserGroup) (*api.UserGroup, error) {
+func (c *userGroups) Create(group *api.UserGroup) (*api.UserGroup, error) {
 	newUserGroup := &api.UserGroup{}
 	err := c.client.
 		Post().
@@ -48,7 +48,7 @@ func (c *userGroupsEndpoint) Create(group *api.UserGroup) (*api.UserGroup, error
 	return newUserGroup, err
 }
 
-func (c *userGroupsEndpoint) Update(group *api.UserGroup) (*api.UserGroup, error) {
+func (c *userGroups) Update(group *api.UserGroup) (*api.UserGroup, error) {
 	updatedGroup := &api.UserGroup{}
 	err := c.client.
 		Put().
@@ -62,7 +62,7 @@ func (c *userGroupsEndpoint) Update(group *api.UserGroup) (*api.UserGroup, error
 	return updatedGroup, err
 }
 
-func (c *userGroupsEndpoint) Delete(groupID string) error {
+func (c *userGroups) Delete(groupID string) error {
 	return c.client.
 		Delete().
 		Resource("user_groups").
@@ -71,7 +71,7 @@ func (c *userGroupsEndpoint) Delete(groupID string) error {
 		Err()
 }
 
-func (c *userGroupsEndpoint) List() ([]*api.UserGroup, error) {
+func (c *userGroups) List() ([]*api.UserGroup, error) {
 	userGroups := []*api.UserGroup{}
 	err := c.client.
 		Get().

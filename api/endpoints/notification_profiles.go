@@ -5,7 +5,7 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type NotificationProfilesEndpoint interface {
+type NotificationProfiles interface {
 	Get(profileID string) (*api.NotificationProfile, error)
 	Create(profile *api.NotificationProfile) (*api.NotificationProfile, error)
 	Update(profile *api.NotificationProfile) (*api.NotificationProfile, error)
@@ -13,17 +13,17 @@ type NotificationProfilesEndpoint interface {
 	List() ([]*api.NotificationProfile, error)
 }
 
-type notificationProfilesEndpoint struct {
+type notificationProfiles struct {
 	client rest.Client
 }
 
-func NewNotificationProfilesEndpoint(client rest.Client) NotificationProfilesEndpoint {
-	return &notificationProfilesEndpoint{
+func NewNotificationProfiles(client rest.Client) NotificationProfiles {
+	return &notificationProfiles{
 		client: client,
 	}
 }
 
-func (c *notificationProfilesEndpoint) Get(profileID string) (*api.NotificationProfile, error) {
+func (c *notificationProfiles) Get(profileID string) (*api.NotificationProfile, error) {
 	profile := &api.NotificationProfile{}
 	err := c.client.
 		Get().
@@ -35,7 +35,7 @@ func (c *notificationProfilesEndpoint) Get(profileID string) (*api.NotificationP
 	return profile, err
 }
 
-func (c *notificationProfilesEndpoint) Create(profile *api.NotificationProfile) (*api.NotificationProfile, error) {
+func (c *notificationProfiles) Create(profile *api.NotificationProfile) (*api.NotificationProfile, error) {
 	newNotificationProfile := &api.NotificationProfile{}
 	err := c.client.
 		Post().
@@ -48,7 +48,7 @@ func (c *notificationProfilesEndpoint) Create(profile *api.NotificationProfile) 
 	return newNotificationProfile, err
 }
 
-func (c *notificationProfilesEndpoint) Update(profile *api.NotificationProfile) (*api.NotificationProfile, error) {
+func (c *notificationProfiles) Update(profile *api.NotificationProfile) (*api.NotificationProfile, error) {
 	updatedNotificationProfile := &api.NotificationProfile{}
 	err := c.client.
 		Put().
@@ -62,7 +62,7 @@ func (c *notificationProfilesEndpoint) Update(profile *api.NotificationProfile) 
 	return updatedNotificationProfile, err
 }
 
-func (c *notificationProfilesEndpoint) Delete(profileID string) error {
+func (c *notificationProfiles) Delete(profileID string) error {
 	return c.client.
 		Delete().
 		Resource("notification_profiles").
@@ -71,7 +71,7 @@ func (c *notificationProfilesEndpoint) Delete(profileID string) error {
 		Err()
 }
 
-func (c *notificationProfilesEndpoint) List() ([]*api.NotificationProfile, error) {
+func (c *notificationProfiles) List() ([]*api.NotificationProfile, error) {
 	notificationProfiles := []*api.NotificationProfile{}
 	err := c.client.
 		Get().

@@ -11,7 +11,7 @@ import (
 )
 
 func TestMonitors(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create monitor",
 			expectedVerb: "POST",
@@ -72,7 +72,7 @@ func TestMonitors(t *testing.T) {
 					UseNameServer:  true,
 				}
 
-				_, err := NewMonitorsEndpoint(c).Create(monitor)
+				_, err := NewMonitors(c).Create(monitor)
 				require.NoError(t, err)
 			},
 		},
@@ -81,7 +81,7 @@ func TestMonitors(t *testing.T) {
 			statusCode:   500,
 			responseBody: []byte("whoops"),
 			fn: func(t *testing.T, c rest.Client) {
-				_, err := NewMonitorsEndpoint(c).Create(&api.Monitor{})
+				_, err := NewMonitors(c).Create(&api.Monitor{})
 				assert.True(t, apierrors.HasStatusCode(err, 500))
 			},
 		},
@@ -92,7 +92,7 @@ func TestMonitors(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_monitor.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				monitor, err := NewMonitorsEndpoint(c).Get("123412341234123411")
+				monitor, err := NewMonitors(c).Get("123412341234123411")
 				require.NoError(t, err)
 
 				expected := &api.Monitor{
@@ -158,7 +158,7 @@ func TestMonitors(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_monitors.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				monitor, err := NewMonitorsEndpoint(c).List()
+				monitor, err := NewMonitors(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.Monitor{
@@ -249,7 +249,7 @@ func TestMonitors(t *testing.T) {
 			fn: func(t *testing.T, c rest.Client) {
 				monitor := &api.Monitor{MonitorID: "456", DisplayName: "bar"}
 
-				monitor, err := NewMonitorsEndpoint(c).Update(monitor)
+				monitor, err := NewMonitors(c).Update(monitor)
 				require.NoError(t, err)
 
 				expected := &api.Monitor{
@@ -269,7 +269,7 @@ func TestMonitors(t *testing.T) {
 				ErrorInfo: map[string]interface{}{"foo": "bar"},
 			}),
 			fn: func(t *testing.T, c rest.Client) {
-				_, err := NewMonitorsEndpoint(c).Update(&api.Monitor{})
+				_, err := NewMonitors(c).Update(&api.Monitor{})
 				assert.True(t, apierrors.HasStatusCode(err, 400))
 			},
 		},
@@ -279,14 +279,14 @@ func TestMonitors(t *testing.T) {
 			expectedPath: "/monitors/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewMonitorsEndpoint(c).Delete("123"))
+				require.NoError(t, NewMonitors(c).Delete("123"))
 			},
 		},
 		{
 			name:       "delete monitor not found",
 			statusCode: 404,
 			fn: func(t *testing.T, c rest.Client) {
-				err := NewMonitorsEndpoint(c).Delete("123")
+				err := NewMonitors(c).Delete("123")
 				assert.True(t, apierrors.IsNotFound(err))
 			},
 		},

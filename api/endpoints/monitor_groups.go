@@ -5,7 +5,7 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type MonitorGroupsEndpoint interface {
+type MonitorGroups interface {
 	Get(groupID string) (*api.MonitorGroup, error)
 	Create(group *api.MonitorGroup) (*api.MonitorGroup, error)
 	Update(group *api.MonitorGroup) (*api.MonitorGroup, error)
@@ -13,17 +13,17 @@ type MonitorGroupsEndpoint interface {
 	List() ([]*api.MonitorGroup, error)
 }
 
-type monitorGroupsEndpoint struct {
+type monitorGroups struct {
 	client rest.Client
 }
 
-func NewMonitorGroupsEndpoint(client rest.Client) MonitorGroupsEndpoint {
-	return &monitorGroupsEndpoint{
+func NewMonitorGroups(client rest.Client) MonitorGroups {
+	return &monitorGroups{
 		client: client,
 	}
 }
 
-func (c *monitorGroupsEndpoint) Get(groupID string) (*api.MonitorGroup, error) {
+func (c *monitorGroups) Get(groupID string) (*api.MonitorGroup, error) {
 	monitorGroup := &api.MonitorGroup{}
 	err := c.client.
 		Get().
@@ -35,7 +35,7 @@ func (c *monitorGroupsEndpoint) Get(groupID string) (*api.MonitorGroup, error) {
 	return monitorGroup, err
 }
 
-func (c *monitorGroupsEndpoint) Create(group *api.MonitorGroup) (*api.MonitorGroup, error) {
+func (c *monitorGroups) Create(group *api.MonitorGroup) (*api.MonitorGroup, error) {
 	newMonitorGroup := &api.MonitorGroup{}
 	err := c.client.
 		Post().
@@ -48,7 +48,7 @@ func (c *monitorGroupsEndpoint) Create(group *api.MonitorGroup) (*api.MonitorGro
 	return newMonitorGroup, err
 }
 
-func (c *monitorGroupsEndpoint) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
+func (c *monitorGroups) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
 	updatedGroup := &api.MonitorGroup{}
 	err := c.client.
 		Put().
@@ -62,7 +62,7 @@ func (c *monitorGroupsEndpoint) Update(group *api.MonitorGroup) (*api.MonitorGro
 	return updatedGroup, err
 }
 
-func (c *monitorGroupsEndpoint) Delete(groupID string) error {
+func (c *monitorGroups) Delete(groupID string) error {
 	return c.client.
 		Delete().
 		Resource("monitor_groups").
@@ -71,7 +71,7 @@ func (c *monitorGroupsEndpoint) Delete(groupID string) error {
 		Err()
 }
 
-func (c *monitorGroupsEndpoint) List() ([]*api.MonitorGroup, error) {
+func (c *monitorGroups) List() ([]*api.MonitorGroup, error) {
 	monitorGroups := []*api.MonitorGroup{}
 	err := c.client.
 		Get().

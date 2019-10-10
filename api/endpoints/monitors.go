@@ -5,7 +5,7 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type MonitorsEndpoint interface {
+type Monitors interface {
 	Get(monitorID string) (*api.Monitor, error)
 	Create(monitor *api.Monitor) (*api.Monitor, error)
 	Update(monitor *api.Monitor) (*api.Monitor, error)
@@ -13,17 +13,17 @@ type MonitorsEndpoint interface {
 	List() ([]*api.Monitor, error)
 }
 
-type monitorsEndpoint struct {
+type monitors struct {
 	client rest.Client
 }
 
-func NewMonitorsEndpoint(client rest.Client) MonitorsEndpoint {
-	return &monitorsEndpoint{
+func NewMonitors(client rest.Client) Monitors {
+	return &monitors{
 		client: client,
 	}
 }
 
-func (c *monitorsEndpoint) Get(monitorID string) (*api.Monitor, error) {
+func (c *monitors) Get(monitorID string) (*api.Monitor, error) {
 	monitor := &api.Monitor{}
 	err := c.client.
 		Get().
@@ -35,7 +35,7 @@ func (c *monitorsEndpoint) Get(monitorID string) (*api.Monitor, error) {
 	return monitor, err
 }
 
-func (c *monitorsEndpoint) Create(monitor *api.Monitor) (*api.Monitor, error) {
+func (c *monitors) Create(monitor *api.Monitor) (*api.Monitor, error) {
 	newMonitor := &api.Monitor{}
 	err := c.client.
 		Post().
@@ -48,7 +48,7 @@ func (c *monitorsEndpoint) Create(monitor *api.Monitor) (*api.Monitor, error) {
 	return newMonitor, err
 }
 
-func (c *monitorsEndpoint) Update(monitor *api.Monitor) (*api.Monitor, error) {
+func (c *monitors) Update(monitor *api.Monitor) (*api.Monitor, error) {
 	updatedMonitor := &api.Monitor{}
 	err := c.client.
 		Put().
@@ -62,7 +62,7 @@ func (c *monitorsEndpoint) Update(monitor *api.Monitor) (*api.Monitor, error) {
 	return updatedMonitor, err
 }
 
-func (c *monitorsEndpoint) Delete(monitorID string) error {
+func (c *monitors) Delete(monitorID string) error {
 	return c.client.
 		Delete().
 		Resource("monitors").
@@ -71,7 +71,7 @@ func (c *monitorsEndpoint) Delete(monitorID string) error {
 		Err()
 }
 
-func (c *monitorsEndpoint) List() ([]*api.Monitor, error) {
+func (c *monitors) List() ([]*api.Monitor, error) {
 	monitors := []*api.Monitor{}
 	err := c.client.
 		Get().

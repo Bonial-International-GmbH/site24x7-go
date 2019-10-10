@@ -5,7 +5,7 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type LocationProfilesEndpoint interface {
+type LocationProfiles interface {
 	Get(profileID string) (*api.LocationProfile, error)
 	Create(profile *api.LocationProfile) (*api.LocationProfile, error)
 	Update(profile *api.LocationProfile) (*api.LocationProfile, error)
@@ -13,17 +13,17 @@ type LocationProfilesEndpoint interface {
 	List() ([]*api.LocationProfile, error)
 }
 
-type locationProfilesEndpoint struct {
+type locationProfiles struct {
 	client rest.Client
 }
 
-func NewLocationProfilesEndpoint(client rest.Client) LocationProfilesEndpoint {
-	return &locationProfilesEndpoint{
+func NewLocationProfiles(client rest.Client) LocationProfiles {
+	return &locationProfiles{
 		client: client,
 	}
 }
 
-func (c *locationProfilesEndpoint) Get(profileID string) (*api.LocationProfile, error) {
+func (c *locationProfiles) Get(profileID string) (*api.LocationProfile, error) {
 	profile := &api.LocationProfile{}
 	err := c.client.
 		Get().
@@ -35,7 +35,7 @@ func (c *locationProfilesEndpoint) Get(profileID string) (*api.LocationProfile, 
 	return profile, err
 }
 
-func (c *locationProfilesEndpoint) Create(profile *api.LocationProfile) (*api.LocationProfile, error) {
+func (c *locationProfiles) Create(profile *api.LocationProfile) (*api.LocationProfile, error) {
 	newProfile := &api.LocationProfile{}
 	err := c.client.
 		Post().
@@ -48,7 +48,7 @@ func (c *locationProfilesEndpoint) Create(profile *api.LocationProfile) (*api.Lo
 	return newProfile, err
 }
 
-func (c *locationProfilesEndpoint) Update(profile *api.LocationProfile) (*api.LocationProfile, error) {
+func (c *locationProfiles) Update(profile *api.LocationProfile) (*api.LocationProfile, error) {
 	updatedProfile := &api.LocationProfile{}
 	err := c.client.
 		Put().
@@ -62,7 +62,7 @@ func (c *locationProfilesEndpoint) Update(profile *api.LocationProfile) (*api.Lo
 	return updatedProfile, err
 }
 
-func (c *locationProfilesEndpoint) Delete(profileID string) error {
+func (c *locationProfiles) Delete(profileID string) error {
 	return c.client.
 		Delete().
 		Resource("location_profiles").
@@ -71,7 +71,7 @@ func (c *locationProfilesEndpoint) Delete(profileID string) error {
 		Err()
 }
 
-func (c *locationProfilesEndpoint) List() ([]*api.LocationProfile, error) {
+func (c *locationProfiles) List() ([]*api.LocationProfile, error) {
 	profiles := []*api.LocationProfile{}
 	err := c.client.
 		Get().

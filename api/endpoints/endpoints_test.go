@@ -22,7 +22,7 @@ type endpointTest struct {
 	fn           func(*testing.T, rest.Client)
 }
 
-func runEndpointTest(t *testing.T, test *endpointTest) {
+func runTest(t *testing.T, test *endpointTest) {
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		if test.expectedVerb != "" {
 			assert.Equal(t, test.expectedVerb, r.Method)
@@ -57,10 +57,10 @@ func runEndpointTest(t *testing.T, test *endpointTest) {
 	test.fn(t, restClient)
 }
 
-func runEndpointTests(t *testing.T, tests []*endpointTest) {
+func runTests(t *testing.T, tests []*endpointTest) {
 	for _, test := range tests {
 		t.Run(test.name, func(t *testing.T) {
-			runEndpointTest(t, test)
+			runTest(t, test)
 		})
 	}
 }
