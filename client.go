@@ -52,13 +52,13 @@ type HTTPClient interface {
 // Client is the Site24x7 API Client interface. It provides methods to get
 // clients for resource endpoints.
 type Client interface {
-	LocationProfiles() endpoints.LocationProfilesEndpoint
-	MonitorGroups() endpoints.MonitorGroupsEndpoint
-	Monitors() endpoints.MonitorsEndpoint
-	NotificationProfiles() endpoints.NotificationProfilesEndpoint
-	ThresholdProfiles() endpoints.ThresholdProfilesEndpoint
-	UserGroups() endpoints.UserGroupsEndpoint
-	ITAutomations() endpoints.ITAutomationsEndpoint
+	LocationProfiles() endpoints.LocationProfiles
+	MonitorGroups() endpoints.MonitorGroups
+	Monitors() endpoints.Monitors
+	NotificationProfiles() endpoints.NotificationProfiles
+	ThresholdProfiles() endpoints.ThresholdProfiles
+	UserGroups() endpoints.UserGroups
+	ITAutomations() endpoints.ITAutomations
 }
 
 type client struct {
@@ -85,36 +85,36 @@ func NewClient(httpClient HTTPClient) Client {
 }
 
 // LocationProfiles implements Client.
-func (c *client) LocationProfiles() endpoints.LocationProfilesEndpoint {
-	return endpoints.NewLocationProfilesEndpoint(c.restClient)
+func (c *client) LocationProfiles() endpoints.LocationProfiles {
+	return endpoints.NewLocationProfiles(c.restClient)
 }
 
 // Monitors implements Client.
-func (c *client) Monitors() endpoints.MonitorsEndpoint {
-	return endpoints.NewMonitorsEndpoint(c.restClient)
+func (c *client) Monitors() endpoints.Monitors {
+	return endpoints.NewMonitors(c.restClient)
 }
 
 // MonitorGroups implements Client.
-func (c *client) MonitorGroups() endpoints.MonitorGroupsEndpoint {
-	return endpoints.NewMonitorGroupsEndpoint(c.restClient)
+func (c *client) MonitorGroups() endpoints.MonitorGroups {
+	return endpoints.NewMonitorGroups(c.restClient)
 }
 
 // NotificationProfiles implements Client.
-func (c *client) NotificationProfiles() endpoints.NotificationProfilesEndpoint {
-	return endpoints.NewNotificationProfilesEndpoint(c.restClient)
+func (c *client) NotificationProfiles() endpoints.NotificationProfiles {
+	return endpoints.NewNotificationProfiles(c.restClient)
 }
 
 // ThresholdProfiles implements Client.
-func (c *client) ThresholdProfiles() endpoints.ThresholdProfilesEndpoint {
-	return endpoints.NewThresholdProfilesEndpoint(c.restClient)
+func (c *client) ThresholdProfiles() endpoints.ThresholdProfiles {
+	return endpoints.NewThresholdProfiles(c.restClient)
 }
 
 // UserGroups implements Client.
-func (c *client) UserGroups() endpoints.UserGroupsEndpoint {
-	return endpoints.NewUserGroupsEndpoint(c.restClient)
+func (c *client) UserGroups() endpoints.UserGroups {
+	return endpoints.NewUserGroups(c.restClient)
 }
 
 // ItAutomations implements Client.
-func (c *client) ITAutomations() endpoints.ITAutomationsEndpoint {
-	return endpoints.NewITAutomationsEndpoint(c.restClient)
+func (c *client) ITAutomations() endpoints.ITAutomations {
+	return endpoints.NewITAutomations(c.restClient)
 }

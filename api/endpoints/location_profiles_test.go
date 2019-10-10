@@ -11,7 +11,7 @@ import (
 )
 
 func TestLocationProfiles(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create location_profile",
 			expectedVerb: "POST",
@@ -30,7 +30,7 @@ func TestLocationProfiles(t *testing.T) {
 						"1",
 					},
 				}
-				_, err := NewLocationProfilesEndpoint(c).Create(profile)
+				_, err := NewLocationProfiles(c).Create(profile)
 				require.NoError(t, err)
 			},
 		},
@@ -39,7 +39,7 @@ func TestLocationProfiles(t *testing.T) {
 			statusCode:   500,
 			responseBody: []byte("whoops"),
 			fn: func(t *testing.T, c rest.Client) {
-				_, err := NewLocationProfilesEndpoint(c).Create(&api.LocationProfile{})
+				_, err := NewLocationProfiles(c).Create(&api.LocationProfile{})
 				assert.True(t, apierrors.HasStatusCode(err, 500))
 			},
 		},
@@ -50,7 +50,7 @@ func TestLocationProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_location_profile.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				locationProfile, err := NewLocationProfilesEndpoint(c).Get("12341234")
+				locationProfile, err := NewLocationProfiles(c).Get("12341234")
 				require.NoError(t, err)
 
 				expected := &api.LocationProfile{
@@ -74,7 +74,7 @@ func TestLocationProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_location_profiles.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				locationProfiles, err := NewLocationProfilesEndpoint(c).List()
+				locationProfiles, err := NewLocationProfiles(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.LocationProfile{
@@ -110,7 +110,7 @@ func TestLocationProfiles(t *testing.T) {
 			fn: func(t *testing.T, c rest.Client) {
 				locationProfile := &api.LocationProfile{ProfileID: "456", ProfileName: "TEST_Profile_update"}
 
-				locationProfile, err := NewLocationProfilesEndpoint(c).Update(locationProfile)
+				locationProfile, err := NewLocationProfiles(c).Update(locationProfile)
 				require.NoError(t, err)
 
 				expected := &api.LocationProfile{
@@ -130,7 +130,7 @@ func TestLocationProfiles(t *testing.T) {
 				ErrorInfo: map[string]interface{}{"foo": "bar"},
 			}),
 			fn: func(t *testing.T, c rest.Client) {
-				_, err := NewLocationProfilesEndpoint(c).Update(&api.LocationProfile{})
+				_, err := NewLocationProfiles(c).Update(&api.LocationProfile{})
 				assert.True(t, apierrors.HasStatusCode(err, 400))
 			},
 		},
@@ -140,14 +140,14 @@ func TestLocationProfiles(t *testing.T) {
 			expectedPath: "/location_profiles/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewLocationProfilesEndpoint(c).Delete("123"))
+				require.NoError(t, NewLocationProfiles(c).Delete("123"))
 			},
 		},
 		{
 			name:       "delete location_profile not found",
 			statusCode: 404,
 			fn: func(t *testing.T, c rest.Client) {
-				err := NewLocationProfilesEndpoint(c).Delete("123")
+				err := NewLocationProfiles(c).Delete("123")
 				assert.True(t, apierrors.IsNotFound(err))
 			},
 		},

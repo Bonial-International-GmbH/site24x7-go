@@ -10,7 +10,7 @@ import (
 )
 
 func TestUserGroups(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create user group",
 			expectedVerb: "POST",
@@ -25,7 +25,7 @@ func TestUserGroups(t *testing.T) {
 					AttributeGroupID: "9876",
 				}
 
-				_, err := NewUserGroupsEndpoint(c).Create(group)
+				_, err := NewUserGroups(c).Create(group)
 				require.NoError(t, err)
 			},
 		},
@@ -36,7 +36,7 @@ func TestUserGroups(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_user_group.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				group, err := NewUserGroupsEndpoint(c).Get("897654345678")
+				group, err := NewUserGroups(c).Get("897654345678")
 				require.NoError(t, err)
 
 				expected := &api.UserGroup{
@@ -56,7 +56,7 @@ func TestUserGroups(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_user_groups.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				groups, err := NewUserGroupsEndpoint(c).List()
+				groups, err := NewUserGroups(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.UserGroup{
@@ -103,7 +103,7 @@ func TestUserGroups(t *testing.T) {
 					},
 				}
 
-				_, err := NewUserGroupsEndpoint(c).Update(group)
+				_, err := NewUserGroups(c).Update(group)
 				require.NoError(t, err)
 			},
 		},
@@ -113,7 +113,7 @@ func TestUserGroups(t *testing.T) {
 			expectedPath: "/user_groups/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewUserGroupsEndpoint(c).Delete("123"))
+				require.NoError(t, NewUserGroups(c).Delete("123"))
 			},
 		},
 	})

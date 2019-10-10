@@ -11,7 +11,7 @@ import (
 )
 
 func TestITAutomations(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create it_automation",
 			expectedVerb: "POST",
@@ -27,7 +27,7 @@ func TestITAutomations(t *testing.T) {
 					ActionName:    "takeaction",
 					ActionUrl:     "testing.tld",
 				}
-				_, err := NewITAutomationsEndpoint(c).Create(automation)
+				_, err := NewITAutomations(c).Create(automation)
 				require.NoError(t, err)
 			},
 		},
@@ -36,7 +36,7 @@ func TestITAutomations(t *testing.T) {
 			statusCode:   500,
 			responseBody: []byte("whoops"),
 			fn: func(t *testing.T, c rest.Client) {
-				_, err := NewITAutomationsEndpoint(c).Create(&api.ITAutomation{})
+				_, err := NewITAutomations(c).Create(&api.ITAutomation{})
 				assert.True(t, apierrors.HasStatusCode(err, 500))
 			},
 		},
@@ -47,7 +47,7 @@ func TestITAutomations(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_it_automation.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				itAutomation, err := NewITAutomationsEndpoint(c).Get("123")
+				itAutomation, err := NewITAutomations(c).Get("123")
 				require.NoError(t, err)
 
 				expected := &api.ITAutomation{
@@ -72,7 +72,7 @@ func TestITAutomations(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_it_automations.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				itAutomations, err := NewITAutomationsEndpoint(c).List()
+				itAutomations, err := NewITAutomations(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.ITAutomation{
@@ -121,7 +121,7 @@ func TestITAutomations(t *testing.T) {
 					SendIncidentParameters: true,
 				}
 
-				_, err := NewITAutomationsEndpoint(c).Update(itAutomation)
+				_, err := NewITAutomations(c).Update(itAutomation)
 				require.NoError(t, err)
 			},
 		},
@@ -134,7 +134,7 @@ func TestITAutomations(t *testing.T) {
 				ErrorInfo: map[string]interface{}{"foo": "bar"},
 			}),
 			fn: func(t *testing.T, c rest.Client) {
-				_, err := NewITAutomationsEndpoint(c).Update(&api.ITAutomation{})
+				_, err := NewITAutomations(c).Update(&api.ITAutomation{})
 				assert.True(t, apierrors.HasStatusCode(err, 400))
 			},
 		},
@@ -144,14 +144,14 @@ func TestITAutomations(t *testing.T) {
 			expectedPath: "/it_automation/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewITAutomationsEndpoint(c).Delete("123"))
+				require.NoError(t, NewITAutomations(c).Delete("123"))
 			},
 		},
 		{
 			name:       "delete it_automation not found",
 			statusCode: 404,
 			fn: func(t *testing.T, c rest.Client) {
-				err := NewITAutomationsEndpoint(c).Delete("123")
+				err := NewITAutomations(c).Delete("123")
 				assert.True(t, apierrors.IsNotFound(err))
 			},
 		},

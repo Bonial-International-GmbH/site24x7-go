@@ -10,7 +10,7 @@ import (
 )
 
 func TestNotificationProfiles(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create notification profile",
 			expectedVerb: "POST",
@@ -26,7 +26,7 @@ func TestNotificationProfiles(t *testing.T) {
 					EscalationWaitTime:          60,
 				}
 
-				_, err := NewNotificationProfilesEndpoint(c).Create(notificationProfile)
+				_, err := NewNotificationProfiles(c).Create(notificationProfile)
 				require.NoError(t, err)
 			},
 		},
@@ -37,7 +37,7 @@ func TestNotificationProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_notification_profile.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				notificationProfile, err := NewNotificationProfilesEndpoint(c).Get("123")
+				notificationProfile, err := NewNotificationProfiles(c).Get("123")
 				require.NoError(t, err)
 
 				expected := &api.NotificationProfile{
@@ -56,7 +56,7 @@ func TestNotificationProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_notification_profiles.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				notificationProfiles, err := NewNotificationProfilesEndpoint(c).List()
+				notificationProfiles, err := NewNotificationProfiles(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.NotificationProfile{
@@ -91,7 +91,7 @@ func TestNotificationProfiles(t *testing.T) {
 					NotifyAfterExecutingActions: true,
 				}
 
-				_, err := NewNotificationProfilesEndpoint(c).Update(notificationProfile)
+				_, err := NewNotificationProfiles(c).Update(notificationProfile)
 				require.NoError(t, err)
 			},
 		},
@@ -101,7 +101,7 @@ func TestNotificationProfiles(t *testing.T) {
 			expectedPath: "/notification_profiles/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewNotificationProfilesEndpoint(c).Delete("123"))
+				require.NoError(t, NewNotificationProfiles(c).Delete("123"))
 			},
 		},
 	})

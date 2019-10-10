@@ -10,7 +10,7 @@ import (
 )
 
 func TestThresholdProfiles(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create threshold profile",
 			expectedVerb: "POST",
@@ -26,7 +26,7 @@ func TestThresholdProfiles(t *testing.T) {
 					DownLocationThreshold: 8,
 				}
 
-				_, err := NewThresholdProfilesEndpoint(c).Create(thresholdProfile)
+				_, err := NewThresholdProfiles(c).Create(thresholdProfile)
 				require.NoError(t, err)
 			},
 		},
@@ -37,7 +37,7 @@ func TestThresholdProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_threshold_profile.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				thresholdProfile, err := NewThresholdProfilesEndpoint(c).Get("123")
+				thresholdProfile, err := NewThresholdProfiles(c).Get("123")
 				require.NoError(t, err)
 
 				expected := &api.ThresholdProfile{
@@ -57,7 +57,7 @@ func TestThresholdProfiles(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_threshold_profiles.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				thresholdProfiles, err := NewThresholdProfilesEndpoint(c).List()
+				thresholdProfiles, err := NewThresholdProfiles(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.ThresholdProfile{
@@ -93,7 +93,7 @@ func TestThresholdProfiles(t *testing.T) {
 					DownLocationThreshold: 8,
 				}
 
-				_, err := NewThresholdProfilesEndpoint(c).Update(thresholdProfile)
+				_, err := NewThresholdProfiles(c).Update(thresholdProfile)
 				require.NoError(t, err)
 			},
 		},
@@ -103,7 +103,7 @@ func TestThresholdProfiles(t *testing.T) {
 			expectedPath: "/threshold_profiles/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewThresholdProfilesEndpoint(c).Delete("123"))
+				require.NoError(t, NewThresholdProfiles(c).Delete("123"))
 			},
 		},
 	})

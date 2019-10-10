@@ -5,7 +5,7 @@ import (
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
 )
 
-type ThresholdProfilesEndpoint interface {
+type ThresholdProfiles interface {
 	Get(profileID string) (*api.ThresholdProfile, error)
 	Create(profile *api.ThresholdProfile) (*api.ThresholdProfile, error)
 	Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error)
@@ -13,17 +13,17 @@ type ThresholdProfilesEndpoint interface {
 	List() ([]*api.ThresholdProfile, error)
 }
 
-type thresholdProfilesEndpoint struct {
+type thresholdProfiles struct {
 	client rest.Client
 }
 
-func NewThresholdProfilesEndpoint(client rest.Client) ThresholdProfilesEndpoint {
-	return &thresholdProfilesEndpoint{
+func NewThresholdProfiles(client rest.Client) ThresholdProfiles {
+	return &thresholdProfiles{
 		client: client,
 	}
 }
 
-func (c *thresholdProfilesEndpoint) Get(profileID string) (*api.ThresholdProfile, error) {
+func (c *thresholdProfiles) Get(profileID string) (*api.ThresholdProfile, error) {
 	profile := &api.ThresholdProfile{}
 	err := c.client.
 		Get().
@@ -35,7 +35,7 @@ func (c *thresholdProfilesEndpoint) Get(profileID string) (*api.ThresholdProfile
 	return profile, err
 }
 
-func (c *thresholdProfilesEndpoint) Create(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
+func (c *thresholdProfiles) Create(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
 	newThresholdProfile := &api.ThresholdProfile{}
 	err := c.client.
 		Post().
@@ -48,7 +48,7 @@ func (c *thresholdProfilesEndpoint) Create(profile *api.ThresholdProfile) (*api.
 	return newThresholdProfile, err
 }
 
-func (c *thresholdProfilesEndpoint) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
+func (c *thresholdProfiles) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
 	updatedThresholdProfile := &api.ThresholdProfile{}
 	err := c.client.
 		Put().
@@ -62,7 +62,7 @@ func (c *thresholdProfilesEndpoint) Update(profile *api.ThresholdProfile) (*api.
 	return updatedThresholdProfile, err
 }
 
-func (c *thresholdProfilesEndpoint) Delete(profileID string) error {
+func (c *thresholdProfiles) Delete(profileID string) error {
 	return c.client.
 		Delete().
 		Resource("threshold_profiles").
@@ -71,7 +71,7 @@ func (c *thresholdProfilesEndpoint) Delete(profileID string) error {
 		Err()
 }
 
-func (c *thresholdProfilesEndpoint) List() ([]*api.ThresholdProfile, error) {
+func (c *thresholdProfiles) List() ([]*api.ThresholdProfile, error) {
 	thresholdProfiles := []*api.ThresholdProfile{}
 	err := c.client.
 		Get().

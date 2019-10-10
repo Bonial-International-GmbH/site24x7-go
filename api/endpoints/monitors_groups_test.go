@@ -10,7 +10,7 @@ import (
 )
 
 func TestMonitorGroups(t *testing.T) {
-	runEndpointTests(t, []*endpointTest{
+	runTests(t, []*endpointTest{
 		{
 			name:         "create monitor group",
 			expectedVerb: "POST",
@@ -31,7 +31,7 @@ func TestMonitorGroups(t *testing.T) {
 					HealthThresholdCount: 10,
 				}
 
-				_, err := NewMonitorGroupsEndpoint(c).Create(group)
+				_, err := NewMonitorGroups(c).Create(group)
 				require.NoError(t, err)
 			},
 		},
@@ -42,7 +42,7 @@ func TestMonitorGroups(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/get_monitor_group.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				group, err := NewMonitorGroupsEndpoint(c).Get("113770000041271035")
+				group, err := NewMonitorGroups(c).Get("113770000041271035")
 				require.NoError(t, err)
 
 				expected := &api.MonitorGroup{
@@ -68,7 +68,7 @@ func TestMonitorGroups(t *testing.T) {
 			statusCode:   200,
 			responseBody: fixture(t, "responses/list_monitor_groups.json"),
 			fn: func(t *testing.T, c rest.Client) {
-				groups, err := NewMonitorGroupsEndpoint(c).List()
+				groups, err := NewMonitorGroups(c).List()
 				require.NoError(t, err)
 
 				expected := []*api.MonitorGroup{
@@ -112,7 +112,7 @@ func TestMonitorGroups(t *testing.T) {
 					DisplayName: "foo",
 				}
 
-				_, err := NewMonitorGroupsEndpoint(c).Update(group)
+				_, err := NewMonitorGroups(c).Update(group)
 				require.NoError(t, err)
 			},
 		},
@@ -122,7 +122,7 @@ func TestMonitorGroups(t *testing.T) {
 			expectedPath: "/monitor_groups/123",
 			statusCode:   200,
 			fn: func(t *testing.T, c rest.Client) {
-				require.NoError(t, NewMonitorGroupsEndpoint(c).Delete("123"))
+				require.NoError(t, NewMonitorGroups(c).Delete("123"))
 			},
 		},
 	})
