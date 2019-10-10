@@ -1,0 +1,7 @@
+{
+  "action_type": 2,
+  "action_timeout": 30,
+  "action_method": "P",
+  "action_name": "takeaction",
+  "action_url": "testing.tld"
+}

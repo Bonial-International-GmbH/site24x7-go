@@ -105,7 +105,7 @@ type UserGroup struct {
 	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
 }
 
-// ITAutomations prioritize and remediate routine actions automatically,
+// ITAutomation prioritize and remediate routine actions automatically,
 // increase IT efficiency and streamline your processes to reduce performance degrade
 type ITAutomation struct {
 	ActionID               string `json:"action_id,omitempty"`
@@ -117,7 +117,7 @@ type ITAutomation struct {
 	SuppressAlert          bool   `json:"suppress_alert,omitempty"`
 	SendIncidentParameters bool   `json:"send_incident_parameters,omitempty"`
 	SendCustomParameters   bool   `json:"send_custom_parameters,omitempty"`
-	CustomParameters       string `json:"custom_parameters"`
+	CustomParameters       string `json:"custom_parameters,omitempty"`
 	SendInJsonFormat       bool   `json:"send_in_json_format,omitempty"`
 	AuthMethod             string `json:"auth_method,omitempty"`
 	Username               string `json:"username,omitempty"`
