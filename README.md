@@ -1,12 +1,12 @@
-Golang Site24x7 API Client
-==========================
+site24x7-go
+===========
 
 [![Build Status](https://travis-ci.org/Bonial-International-GmbH/site24x7-go.svg?branch=master)](https://travis-ci.org/Bonial-International-GmbH/site24x7-go)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Bonial-International-GmbH/site24x7-go?style=flat)](https://goreportcard.com/report/github.com/Bonial-International-GmbH/site24x7-go)
 [![GoDoc](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go?status.svg)](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go)
 
-An API client for [Site24x7](https://www.site24x7.com). Currently the following
-endpoints are implemented:
+An API client for [Site24x7](https://www.site24x7.com) written in go. Currently
+the following endpoints are implemented:
 
 * IT Automations
 * Location Profiles
