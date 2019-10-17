@@ -8,15 +8,16 @@ Golang Site24x7 API Client
 An API client for [Site24x7](https://www.site24x7.com). Currently the following
 endpoints are implemented:
 
-* Monitors
-* Monitor Groups
+* IT Automations
 * Location Profiles
+* Monitor Groups
+* Monitors
 * Notification Profiles
 * Threshold Profiles
 * User Groups
 
-If you want to add support for other endpoints as well we are happy to accept
-Pull Requests.
+If you want to add support for other endpoints as well or want to add missing
+fields to an existing endpoint, we are happy to accept Pull Requests.
 
 Installation
 ------------
@@ -41,8 +42,10 @@ package main
 import (
 	"fmt"
 	"os"
+	"time"
 
 	site24x7 "github.com/Bonial-International-GmbH/site24x7-go"
+	"github.com/Bonial-International-GmbH/site24x7-go/backoff"
 )
 
 func main() {
@@ -50,6 +53,16 @@ func main() {
 		ClientID:     os.Getenv("CLIENT_ID"),
 		ClientSecret: os.Getenv("CLIENT_SECRET"),
 		RefreshToken: os.Getenv("REFRESH_TOKEN"),
+
+		// RetryConfig is optional. If omitted, backoff.DefaultRetryConfig will
+		// be used.
+		RetryConfig: &backoff.RetryConfig{
+			MinWait:    1 * time.Second,
+			MaxWait:    30 * time.Second,
+			MaxRetries: 4,
+			CheckRetry: backoff.DefaultRetryPolicy,
+			Backoff:    backoff.DefaultBackoff,
+		},
 	}
 
 	client := site24x7.New(config)

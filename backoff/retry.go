@@ -17,11 +17,46 @@ type HTTPClient interface {
 
 // RetryConfig configures the backoff-retry behaviour.
 type RetryConfig struct {
-	MinWait    time.Duration
-	MaxWait    time.Duration
+	// MinWait is the minimum time to wait before retrying.
+	MinWait time.Duration
+
+	// MaxWait is the maximum time to wait before retrying. When using
+	// exponential backoff, this is the upper limit for the wait duration.
+	MaxWait time.Duration
+
+	// MaxRetries is the maximum number of retries to perform until giving up.
 	MaxRetries int
+
+	// CheckRetry is a function that decides whether a request should be
+	// retried or not.
 	CheckRetry retryablehttp.CheckRetry
-	Backoff    retryablehttp.Backoff
+
+	// Backoff calculates the sleep duration for the next retry.
+	Backoff retryablehttp.Backoff
+}
+
+func (c *RetryConfig) withDefaults(defaults RetryConfig) *RetryConfig {
+	if c.MinWait <= 0 {
+		c.MinWait = defaults.MinWait
+	}
+
+	if c.MaxWait <= 0 {
+		c.MaxWait = defaults.MaxWait
+	}
+
+	if c.MaxRetries < 0 {
+		c.MaxRetries = defaults.MaxRetries
+	}
+
+	if c.CheckRetry == nil {
+		c.CheckRetry = defaults.CheckRetry
+	}
+
+	if c.Backoff == nil {
+		c.Backoff = defaults.Backoff
+	}
+
+	return c
 }
 
 // DefaultRetryConfig is the default config for retrying http requests.
@@ -43,7 +78,7 @@ type retryableClient struct {
 func WithRetries(httpClient *http.Client, config *RetryConfig) HTTPClient {
 	cfg := DefaultRetryConfig
 	if config != nil {
-		cfg = *config
+		cfg = *config.withDefaults(DefaultRetryConfig)
 	}
 
 	c := &retryableClient{
