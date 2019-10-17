@@ -45,6 +45,8 @@ import (
 	"time"
 
 	site24x7 "github.com/Bonial-International-GmbH/site24x7-go"
+	"github.com/Bonial-International-GmbH/site24x7-go/api"
+	apierrors "github.com/Bonial-International-GmbH/site24x7-go/api/errors"
 	"github.com/Bonial-International-GmbH/site24x7-go/backoff"
 )
 
@@ -79,6 +81,17 @@ func main() {
 
 	fmt.Printf("Monitor %q created (ID: %s)\n", monitor.DisplayName, monitor.MonitorID)
 	fmt.Printf("%+v\n\n", monitor)
+
+	monitorID := "123"
+
+	monitor, err := client.Monitors().Get(monitorID)
+	if apierrors.IsNotFound(err) {
+		fmt.Printf("monitor %s not found\n", monitorID)
+	} else if err != nil {
+		panic(err)
+	} else {
+		fmt.Printf("%+v\n\n", monitor)
+	}
 }
 ```
 
