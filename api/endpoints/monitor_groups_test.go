@@ -103,7 +103,7 @@ func TestMonitorGroups(t *testing.T) {
 			name:         "update monitor group",
 			expectedVerb: "PUT",
 			expectedPath: "/monitor_groups/123",
-			expectedBody: []byte(`{"group_id":"123","display_name":"foo"}`),
+			expectedBody: []byte(`{"group_id":"123","display_name":"foo","suppress_alert": false}`),
 			statusCode:   200,
 			responseBody: jsonAPIResponseBody(t, nil),
 			fn: func(t *testing.T, c rest.Client) {
