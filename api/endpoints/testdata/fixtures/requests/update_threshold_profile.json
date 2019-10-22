@@ -2,5 +2,6 @@
   "profile_id": "123",
   "type": "URL",
   "profile_name": "URL profile",
-  "down_location_threshold": 8
+  "down_location_threshold": 8,
+  "website_content_modified": false
 }

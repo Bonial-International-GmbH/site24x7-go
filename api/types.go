@@ -42,13 +42,13 @@ type Monitor struct {
 	MatchRegex            *ValueAndSeverity `json:"match_regex,omitempty"`
 	MatchCase             bool              `json:"match_case"`
 	UserAgent             string            `json:"user_agent"`
-	CustomHeaders         []Header          `json:"custom_headers"`
+	CustomHeaders         []Header          `json:"custom_headers,omitempty"`
 	Timeout               int               `json:"timeout"`
 	LocationProfileID     string            `json:"location_profile_id"`
 	NotificationProfileID string            `json:"notification_profile_id"`
 	ThresholdProfileID    string            `json:"threshold_profile_id"`
-	MonitorGroups         []string          `json:"monitor_groups"`
-	UserGroupIDs          []string          `json:"user_group_ids"`
+	MonitorGroups         []string          `json:"monitor_groups,omitempty"`
+	UserGroupIDs          []string          `json:"user_group_ids,omitempty"`
 	ActionIDs             []ActionRef       `json:"action_ids,omitempty"`
 	UseNameServer         bool              `json:"use_name_server"`
 }
@@ -61,7 +61,7 @@ type MonitorGroup struct {
 	Monitors             []string `json:"monitors,omitempty"`
 	HealthThresholdCount int      `json:"health_threshold_count,omitempty"`
 	DependencyReourceID  string   `json:"dependency_resource_id,omitempty"`
-	SuppressAlert        bool     `json:"suppress_alert,omitempty"`
+	SuppressAlert        bool     `json:"suppress_alert"`
 }
 
 // NotificationProfile allows tweaking when alerts have to be sent out.
@@ -90,18 +90,18 @@ type LocationProfile struct {
 
 // ThresholdProfile help the alarms engine to decide if a specific resource has to be declared critical or down
 type ThresholdProfile struct {
-	ProfileID              string `json:"profile_id"`
+	ProfileID              string `json:"profile_id,omitempty"`
 	Type                   string `json:"type"`
 	ProfileName            string `json:"profile_name"`
 	DownLocationThreshold  int    `json:"down_location_threshold"`
-	WebsiteContentModified bool   `json:"website_content_modified,omitempty"`
+	WebsiteContentModified bool   `json:"website_content_modified"`
 }
 
 // UserGroup help organize individuals so that they receive alerts and reports based on their responsibility.
 type UserGroup struct {
 	UserGroupID      string   `json:"user_group_id,omitempty"`
 	DisplayName      string   `json:"display_name"`
-	Users            []string `json:"users"`
+	Users            []string `json:"users,omitempty"`
 	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
 }
 
@@ -115,10 +115,10 @@ type ITAutomation struct {
 	ActionType             int    `json:"action_type"`
 	ActionMethod           string `json:"action_method"`
 	SuppressAlert          bool   `json:"suppress_alert,omitempty"`
-	SendIncidentParameters bool   `json:"send_incident_parameters,omitempty"`
-	SendCustomParameters   bool   `json:"send_custom_parameters,omitempty"`
-	CustomParameters       string `json:"custom_parameters,omitempty"`
-	SendInJsonFormat       bool   `json:"send_in_json_format,omitempty"`
+	SendIncidentParameters bool   `json:"send_incident_parameters"`
+	SendCustomParameters   bool   `json:"send_custom_parameters"`
+	CustomParameters       string `json:"custom_parameters"`
+	SendInJsonFormat       bool   `json:"send_in_json_format"`
 	AuthMethod             string `json:"auth_method,omitempty"`
 	Username               string `json:"username,omitempty"`
 	Password               string `json:"password,omitempty"`
