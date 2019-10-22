@@ -12,5 +12,5 @@ cache:
     - $HOME/.cache/go-build
     - $HOME/gopath/pkg/mod
 script:
-  - make vet
   - make coverage
+  - make lint
