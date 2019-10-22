@@ -2,6 +2,7 @@ package backoff
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 	"strconv"
 	"time"
@@ -89,6 +90,7 @@ func WithRetries(httpClient *http.Client, config *RetryConfig) HTTPClient {
 			RetryMax:     cfg.MaxRetries,
 			CheckRetry:   cfg.CheckRetry,
 			Backoff:      cfg.Backoff,
+			ErrorHandler: errorHandler,
 		},
 	}
 
@@ -104,7 +106,21 @@ func (c *retryableClient) Do(req *http.Request) (*http.Response, error) {
 		return nil, err
 	}
 
-	return c.Client.Do(wrappedReq)
+	resp, err := c.Client.Do(wrappedReq)
+	if err != nil {
+		err = fmt.Errorf("%s %s: %v", req.Method, req.URL, err)
+	}
+
+	return resp, err
+}
+
+// errorHandler wraps the error with the number of request attempts.
+func errorHandler(resp *http.Response, err error, attempts int) (*http.Response, error) {
+	if err != nil {
+		err = fmt.Errorf("giving up after %d attempts due to: %v", attempts, err)
+	}
+
+	return resp, err
 }
 
 // DefaultRetryPolicy provides a callback for retryablehttp.Client.CheckRetry, which

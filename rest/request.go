@@ -113,6 +113,8 @@ func (r *Request) buildRequest() (*http.Request, error) {
 }
 
 func (r *Request) doRequest(req *http.Request) Response {
+	log.Debugf("<== %s %s: %s", req.Method, req.URL, string(r.body))
+
 	resp, err := r.client.Do(req)
 	if err != nil {
 		return Response{err: err}
@@ -125,7 +127,7 @@ func (r *Request) doRequest(req *http.Request) Response {
 		return Response{err: err}
 	}
 
-	log.Debugf("received: %s", string(body))
+	log.Debugf("==> %d: %s", resp.StatusCode, string(body))
 
 	if resp.StatusCode > 0 && resp.StatusCode < 400 {
 		return Response{body: body}
