@@ -10,14 +10,16 @@ import (
 
 const (
 	// DefaultBaseDNSDomain is the domain where all Site24x7 check location
-	// IPs are aggregated under.
+	// IPs are aggregated under. See
+	// https://support.site24x7.com/portal/kb/articles/domain-configurations-for-location-server-ips
+	// for more information.
 	DefaultBaseDNSDomain = "enduserexp.com"
 )
 
 // IPSource provides the origin IP addresses for a Site24x7 check location.
 type IPSource interface {
 	// LookupIPs looks up all Site24x7 IPs associated with given location. The
-	// resulting slice of net.IP values can be used for whitelisting IP addresses
+	// resulting slice of IP strings can be used for whitelisting IP addresses
 	// in the firewalls of the endpoints monitors are configured for.
 	LookupIPs(location *api.Location) ([]string, error)
 }
@@ -36,8 +38,9 @@ func (s *StaticIPSource) LookupIPs(location *api.Location) ([]string, error) {
 
 // DNSIPSource looks up check location IPs using DNS.
 type DNSIPSource struct {
-	// BaseDNSDomain is the DNS domain the aggregates all check location IPs
-	// under subdomains with the naming scheme {{CityName}}-{{CountryCode}}.
+	// BaseDNSDomain is the DNS domain that aggregates all check location IPs
+	// under subdomains with the naming scheme
+	// {{CityName}}-{{CountryCode}}.{{BaseDNSDomain}}.
 	BaseDNSDomain string
 }
 
@@ -108,6 +111,8 @@ func (s *DNSIPSource) lookupIPs(cityName string, countryCode string) (ips []net.
 	return ips, err
 }
 
+// netIPsToStrings converts a slice of net.IP to a slice of strings and removes
+// net.IP values that are nil.
 func netIPsToStrings(netIPs []net.IP) []string {
 	ips := make([]string, len(netIPs))
 	for i, ip := range netIPs {
@@ -121,7 +126,7 @@ func netIPsToStrings(netIPs []net.IP) []string {
 	return ips
 }
 
-// parseCountryCode parses the country code from the locations' display name.
+// parseCountryCode parses the country code from the location's display name.
 // The display name has the format: {{CityName}} - {{CountryCode}}.
 func parseCountryCode(location *api.Location) (string, error) {
 	parts := strings.Split(location.DisplayName, " - ")

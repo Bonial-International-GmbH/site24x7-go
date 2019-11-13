@@ -17,6 +17,10 @@ func main() {
 
 	client := site24x7.New(config)
 
+	// Using the ProfileIPProvider it is possible to retrieve a list of all IP
+	// addresses associated with the locations of a LocationProfile. This is
+	// useful it you want to do dynamic server-side IP whitelisting of Site24x7
+	// check origins.
 	ipProvider, err := location.NewDefaultProfileIPProvider(client)
 	if err != nil {
 		panic(err)
@@ -28,6 +32,8 @@ func main() {
 	}
 
 	for _, profile := range profiles {
+		// This will lookup all IP addresses associated to the locations
+		// configured in the location profile.
 		ips, err := ipProvider.GetLocationIPs(profile)
 		if err != nil {
 			panic(err)

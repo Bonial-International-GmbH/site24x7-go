@@ -100,6 +100,8 @@ Refer to the
 all available endpoints and
 [API types](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go/api).
 
+Also check out the other usage examples in the [_examples/](_examples/) subdirectory.
+
 License
 -------
 
