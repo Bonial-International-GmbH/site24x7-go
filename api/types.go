@@ -88,6 +88,25 @@ type LocationProfile struct {
 	RestrictAltLoc     bool     `json:"restrict_alt_loc"`
 }
 
+// LocationTemplate holds locations Site24x7 performs their monitor checks
+// from.
+type LocationTemplate struct {
+	Locations []*Location `json:"locations"`
+}
+
+// Location is a physical location Site24x7 performs monitor checks from. The
+// LocationID field maps to the IDs used in the PrimaryLocation and
+// SecondaryLocations fields of LocationProfile values.
+type Location struct {
+	LocationID  string `json:"location_id"`
+	CountryName string `json:"country_name"`
+	DisplayName string `json:"display_name"`
+	UseIPV6     bool   `json:"use_ipv6"`
+	CityName    string `json:"city_name"`
+	CityShort   string `json:"city_short"`
+	Continent   string `json:"continent"`
+}
+
 // ThresholdProfile help the alarms engine to decide if a specific resource has to be declared critical or down
 type ThresholdProfile struct {
 	ProfileID              string `json:"profile_id,omitempty"`

@@ -12,6 +12,7 @@ var _ site24x7.Client = &Client{}
 // with mocks. In can be used in unit tests.
 type Client struct {
 	FakeITAutomations        *fake.ITAutomations
+	FakeLocationTemplate     *fake.LocationTemplate
 	FakeLocationProfiles     *fake.LocationProfiles
 	FakeMonitorGroups        *fake.MonitorGroups
 	FakeMonitors             *fake.Monitors
@@ -25,6 +26,7 @@ func NewClient() *Client {
 	return &Client{
 		FakeITAutomations:        &fake.ITAutomations{},
 		FakeLocationProfiles:     &fake.LocationProfiles{},
+		FakeLocationTemplate:     &fake.LocationTemplate{},
 		FakeMonitorGroups:        &fake.MonitorGroups{},
 		FakeMonitors:             &fake.Monitors{},
 		FakeNotificationProfiles: &fake.NotificationProfiles{},
@@ -41,6 +43,11 @@ func (c *Client) ITAutomations() endpoints.ITAutomations {
 // LocationProfiles implements Client.
 func (c *Client) LocationProfiles() endpoints.LocationProfiles {
 	return c.FakeLocationProfiles
+}
+
+// LocationTemplate implements Client.
+func (c *Client) LocationTemplate() endpoints.LocationTemplate {
+	return c.FakeLocationTemplate
 }
 
 // Monitors implements Client.
