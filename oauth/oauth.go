@@ -34,7 +34,8 @@ func NewConfig(clientID, clientSecret, refreshToken string) *Config {
 			ClientID:     clientID,
 			ClientSecret: clientSecret,
 			Endpoint: oauth2.Endpoint{
-				TokenURL: TokenURL,
+				AuthStyle: oauth2.AuthStyleInParams,
+				TokenURL:  TokenURL,
 			},
 		},
 		RefreshToken: refreshToken,
@@ -44,7 +45,11 @@ func NewConfig(clientID, clientSecret, refreshToken string) *Config {
 // Client returns a *http.Client which automatically retrieves OAuth access
 // tokens and attaches them to any request made with it.
 func (c *Config) Client(ctx context.Context) *http.Client {
-	return oauth2.NewClient(ctx, c.TokenSource(ctx))
+	return &http.Client{
+		Transport: &oauth2.Transport{
+			Source: c.TokenSource(ctx),
+		},
+	}
 }
 
 // TokenSource creates an oauth2.TokenSource which obtains access tokens using
@@ -55,5 +60,7 @@ func (c *Config) TokenSource(ctx context.Context) oauth2.TokenSource {
 		TokenType:    TokenType,
 	}
 
-	return c.Config.TokenSource(ctx, t)
+	return &tokenSource{
+		delegate: c.Config.TokenSource(ctx, t),
+	}
 }
