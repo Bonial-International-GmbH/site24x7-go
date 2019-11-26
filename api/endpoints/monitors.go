@@ -11,6 +11,8 @@ type Monitors interface {
 	Update(monitor *api.Monitor) (*api.Monitor, error)
 	Delete(monitorID string) error
 	List() ([]*api.Monitor, error)
+	Activate(monitorID string) error
+	Suspend(monitorID string) error
 }
 
 type monitors struct {
@@ -80,4 +82,22 @@ func (c *monitors) List() ([]*api.Monitor, error) {
 		Into(&monitors)
 
 	return monitors, err
+}
+
+func (c *monitors) Activate(monitorID string) error {
+	return c.client.
+		Put().
+		Resource("monitors/activate").
+		ResourceID(monitorID).
+		Do().
+		Err()
+}
+
+func (c *monitors) Suspend(monitorID string) error {
+	return c.client.
+		Put().
+		Resource("monitors/suspend").
+		ResourceID(monitorID).
+		Do().
+		Err()
 }

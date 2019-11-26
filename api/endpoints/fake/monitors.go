@@ -48,3 +48,13 @@ func (e *Monitors) List() ([]*api.Monitor, error) {
 	}
 	return nil, args.Error(1)
 }
+
+func (e *Monitors) Activate(monitorID string) error {
+	args := e.Called(monitorID)
+	return args.Error(0)
+}
+
+func (e *Monitors) Suspend(monitorID string) error {
+	args := e.Called(monitorID)
+	return args.Error(0)
+}
