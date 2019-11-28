@@ -53,6 +53,7 @@ type HTTPClient interface {
 // clients for resource endpoints.
 type Client interface {
 	LocationProfiles() endpoints.LocationProfiles
+	LocationTemplate() endpoints.LocationTemplate
 	MonitorGroups() endpoints.MonitorGroups
 	Monitors() endpoints.Monitors
 	NotificationProfiles() endpoints.NotificationProfiles
@@ -87,6 +88,11 @@ func NewClient(httpClient HTTPClient) Client {
 // LocationProfiles implements Client.
 func (c *client) LocationProfiles() endpoints.LocationProfiles {
 	return endpoints.NewLocationProfiles(c.restClient)
+}
+
+// LocationTemplate implements Client.
+func (c *client) LocationTemplate() endpoints.LocationTemplate {
+	return endpoints.NewLocationTemplate(c.restClient)
 }
 
 // Monitors implements Client.
