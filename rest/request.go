@@ -10,6 +10,7 @@ import (
 
 	"github.com/Bonial-International-GmbH/site24x7-go/api"
 	apierrors "github.com/Bonial-International-GmbH/site24x7-go/api/errors"
+	"github.com/google/go-querystring/query"
 	log "github.com/sirupsen/logrus"
 )
 
@@ -20,6 +21,7 @@ type Request struct {
 	baseURL    string
 	resource   string
 	resourceID string
+	query      url.Values
 	header     http.Header
 	verb       string
 	body       []byte
@@ -53,6 +55,13 @@ func (r *Request) Resource(resource string) *Request {
 // API resource path will be '/api/monitors/123'.
 func (r *Request) ResourceID(resourceID string) *Request {
 	r.resourceID = resourceID
+	return r
+}
+
+// QueryParams sets the request's query parameters.
+func (r *Request) QueryParams(params interface{}) *Request {
+	r.query, r.err = query.Values(params)
+
 	return r
 }
 
@@ -107,6 +116,10 @@ func (r *Request) buildRequest() (*http.Request, error) {
 		Header: r.header,
 		Body:   ioutil.NopCloser(bytes.NewReader(r.body)),
 		URL:    url,
+	}
+
+	if len(r.query) != 0 {
+		req.URL.RawQuery = r.query.Encode()
 	}
 
 	return req, nil
