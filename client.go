@@ -52,6 +52,7 @@ type HTTPClient interface {
 // Client is the Site24x7 API Client interface. It provides methods to get
 // clients for resource endpoints.
 type Client interface {
+	CurrentStatus() endpoints.CurrentStatus
 	LocationProfiles() endpoints.LocationProfiles
 	LocationTemplate() endpoints.LocationTemplate
 	MonitorGroups() endpoints.MonitorGroups
@@ -83,6 +84,11 @@ func NewClient(httpClient HTTPClient) Client {
 	return &client{
 		restClient: rest.NewClient(httpClient, APIBaseURL),
 	}
+}
+
+// CurrentStatus implements Client.
+func (c *client) CurrentStatus() endpoints.CurrentStatus {
+	return endpoints.NewCurrentStatus(c.restClient)
 }
 
 // LocationProfiles implements Client.

@@ -8,8 +8,10 @@ site24x7-go
 An API client for [Site24x7](https://www.site24x7.com) written in go. Currently
 the following endpoints are implemented:
 
+* Current Status
 * IT Automations
 * Location Profiles
+* Location Template
 * Monitor Groups
 * Monitors
 * Notification Profiles
@@ -18,6 +20,24 @@ the following endpoints are implemented:
 
 If you want to add support for other endpoints as well or want to add missing
 fields to an existing endpoint, we are happy to accept Pull Requests.
+
+Site24x7 OAuth Scopes
+---------------------
+
+The following Site24x7 OAuth Scopes are required for using the implemented endpoints:
+
+* Monitors, Monitor Groups, Location Profiles, Notification Profiles, Threshold Profiles, User Groups
+  * Create: `Site24x7.Admin.Create`
+  * Get/List: `Site24x7.Admin.Read`
+  * Update: `Site24x7.Admin.Update`
+  * Delete: `Site24x7.Admin.Delete`
+* IT Automations
+  * Create: `Site24x7.Operations.Create`
+  * Get/List: `Site24x7.Operations.Read`
+  * Update: `Site24x7.Operations.Update`
+  * Delete: `Site24x7.Operations.Delete`
+* Current Status
+  * Get/List: `Site24x7.Reports.Read`
 
 Installation
 ------------
@@ -84,7 +104,7 @@ func main() {
 
 	monitorID := "123"
 
-	monitor, err := client.Monitors().Get(monitorID)
+	monitor, err = client.Monitors().Get(monitorID)
 	if apierrors.IsNotFound(err) {
 		fmt.Printf("monitor %s not found\n", monitorID)
 	} else if err != nil {

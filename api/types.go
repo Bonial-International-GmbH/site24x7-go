@@ -3,13 +3,14 @@ package api
 type Status int
 
 const (
-	Down           Status = 0
-	Up             Status = 1
-	Trouble        Status = 2
-	Suspended      Status = 5
-	Maintenance    Status = 7
-	Discovery      Status = 9
-	DiscoveryError Status = 10
+	Down               Status = 0
+	Up                 Status = 1
+	Trouble            Status = 2
+	Critical           Status = 3
+	Suspended          Status = 5
+	Maintenance        Status = 7
+	Discovery          Status = 9
+	ConfigurationError Status = 10
 )
 
 type ValueAndSeverity struct {
@@ -143,4 +144,37 @@ type ITAutomation struct {
 	Password               string `json:"password,omitempty"`
 	OAuth2Provider         string `json:"oauth2_provider,omitempty"`
 	UserAgent              string `json:"user_agent,omitempty"`
+}
+
+// MonitorsStatus describes the response for the current status endpoint as
+// defined here: https://www.site24x7.com/help/api/#retrieve-current-status.
+type MonitorsStatus struct {
+	Monitors []*MonitorStatus `json:"monitors"`
+}
+
+// MonitorStatus describes a monitor status response as defined here:
+// https://www.site24x7.com/help/api/#retrieve-current-status.
+type MonitorStatus struct {
+	Name           string   `json:"name"`
+	MonitorID      string   `json:"monitor_id"`
+	MonitorType    string   `json:"monitor_type"`
+	Status         Status   `json:"status"`
+	LastPolledTime string   `json:"last_polled_time"`
+	Unit           string   `json:"unit"`
+	OutageID       string   `json:"outage_id"`
+	DowntimeMillis string   `json:"downtime_millis"`
+	DownReason     string   `json:"down_reason"`
+	Duration       string   `json:"duration"`
+	ServerType     string   `json:"server_type"`
+	Tags           []string `json:"tags"`
+}
+
+// CurrentStatusListOptions hold the options that can be specified to filter
+// current monitor statuses.
+type CurrentStatusListOptions struct {
+	APMRequired       *bool   `url:"apm_required,omitempty"`
+	GroupRequired     *bool   `url:"group_required,omitempty"`
+	SuspendedRequired *bool   `url:"suspended_required,omitempty"`
+	LocationsRequired *bool   `url:"locations_required,omitempty"`
+	StatusRequired    *string `url:"status_required,omitempty"`
 }

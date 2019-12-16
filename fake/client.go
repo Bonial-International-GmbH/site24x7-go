@@ -11,6 +11,7 @@ var _ site24x7.Client = &Client{}
 // Client is an implementation of site24x7.Client that stubs out all endpoints
 // with mocks. In can be used in unit tests.
 type Client struct {
+	FakeCurrentStatus        *fake.CurrentStatus
 	FakeITAutomations        *fake.ITAutomations
 	FakeLocationTemplate     *fake.LocationTemplate
 	FakeLocationProfiles     *fake.LocationProfiles
@@ -24,6 +25,7 @@ type Client struct {
 // NewClient creates a new fake site24x7 API client.
 func NewClient() *Client {
 	return &Client{
+		FakeCurrentStatus:        &fake.CurrentStatus{},
 		FakeITAutomations:        &fake.ITAutomations{},
 		FakeLocationProfiles:     &fake.LocationProfiles{},
 		FakeLocationTemplate:     &fake.LocationTemplate{},
@@ -33,6 +35,11 @@ func NewClient() *Client {
 		FakeThresholdProfiles:    &fake.ThresholdProfiles{},
 		FakeUserGroups:           &fake.UserGroups{},
 	}
+}
+
+// CurrentStatus implements Client.
+func (c *Client) CurrentStatus() endpoints.CurrentStatus {
+	return c.FakeCurrentStatus
 }
 
 // ItAutomations implements Client.
