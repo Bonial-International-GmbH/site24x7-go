@@ -1,6 +1,35 @@
 package api
 
+import (
+	"encoding/json"
+	"strconv"
+)
+
 type Status int
+
+// Custom unmarshaller that allows the value to be both a
+// string and an integer, always unmarshals into integer
+//
+// The Site24x7 API has a bug where it accepts integers, but
+// returns them as strings.
+func (status *Status) UnmarshalJSON(rawValue []byte) error {
+	if rawValue[0] != '"' {
+		return json.Unmarshal(rawValue, (*int)(status))
+	}
+
+	var valueAsString string
+	if err := json.Unmarshal(rawValue, &valueAsString); err != nil {
+		return err
+	}
+
+	valueAsInt, err := strconv.Atoi(valueAsString)
+	if err != nil {
+		return err
+	}
+
+	*status = Status(valueAsInt)
+	return nil
+}
 
 const (
 	Down               Status = 0
