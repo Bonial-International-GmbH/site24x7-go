@@ -44,7 +44,7 @@
     "notification_profile_id": "123412341234123413",
     "http_method": "P",
     "matching_keyword": {
-      "severity": 0,
+      "severity": "0",
       "value": "Title"
     },
     "action_ids": [
