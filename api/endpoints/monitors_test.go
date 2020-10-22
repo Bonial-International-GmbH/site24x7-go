@@ -146,6 +146,7 @@ func TestMonitors(t *testing.T) {
 					CheckFrequency: "1440",
 					DisplayName:    "Display name for the monitor",
 					UseNameServer:  true,
+					UpStatusCodes:  "200",
 				}
 
 				assert.Equal(t, expected, monitor)
