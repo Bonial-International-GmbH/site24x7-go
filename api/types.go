@@ -81,6 +81,7 @@ type Monitor struct {
 	UserGroupIDs          []string          `json:"user_group_ids,omitempty"`
 	ActionIDs             []ActionRef       `json:"action_ids,omitempty"`
 	UseNameServer         bool              `json:"use_name_server"`
+	UpStatusCodes         string            `json:"up_status_codes"`
 }
 
 // MonitorGroup organizes Monitor resources into groups.

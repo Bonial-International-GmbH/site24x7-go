@@ -47,5 +47,6 @@
   },
   "check_frequency": "1440",
   "display_name": "Display name for the monitor",
-  "use_name_server": true
+  "use_name_server": true,
+  "up_status_codes": ""
 }
