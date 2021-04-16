@@ -30,6 +30,14 @@ type Config struct {
 	// if it expires.
 	RefreshToken string
 
+	// APIBaseURL allows overriding the default API base URL (https://www.site24x7.com/api).
+	// See https://www.site24x7.com/help/api/index.html#introduction for options of data centers for top level domain.
+	APIBaseURL string
+
+	// TokenURL allows overriding the default token URL (https://accounts.zoho.com/oauth/v2/token).
+	// See https://www.site24x7.com/help/api/index.html#authentication for options of data centers for top level domain.
+	TokenURL string
+
 	// RetryConfig contains the configuration of the backoff-retry behavior. If
 	// nil, backoff.DefaultRetryConfig will be used.
 	RetryConfig *backoff.RetryConfig
@@ -39,6 +47,9 @@ type Config struct {
 // attaches OAuth access tokens to every request.
 func (c *Config) OAuthClient(ctx context.Context) *http.Client {
 	oauthConfig := oauth.NewConfig(c.ClientID, c.ClientSecret, c.RefreshToken)
+	if c.TokenURL != "" {
+		oauthConfig.Endpoint.TokenURL = c.TokenURL
+	}
 
 	return oauthConfig.Client(ctx)
 }
@@ -74,15 +85,26 @@ func New(c Config) Client {
 		c.RetryConfig,
 	)
 
+	if c.APIBaseURL != "" {
+		return NewClientWithBaseURL(httpClient, c.APIBaseURL)
+	}
+
 	return NewClient(httpClient)
 }
 
-// NewClient creates a new Site24x7 API Client from httpClient. This can be
-// used to provide a custom http client for use with the API. The custom http
+// NewClient creates a new Site24x7 API Client from httpClient with default API base URL.
+// This can be used to provide a custom http client for use with the API. The custom http
 // client has to transparently handle the Site24x7 OAuth flow.
 func NewClient(httpClient HTTPClient) Client {
+	return NewClientWithBaseURL(httpClient, APIBaseURL)
+}
+
+// NewClientWithBaseURL creates a new Site24x7 API Client from httpClient and given API base URL.
+// This can be used to provide a custom http client for use with the API. The custom http
+// client has to transparently handle the Site24x7 OAuth flow.
+func NewClientWithBaseURL(httpClient HTTPClient, baseURL string) Client {
 	return &client{
-		restClient: rest.NewClient(httpClient, APIBaseURL),
+		restClient: rest.NewClient(httpClient, baseURL),
 	}
 }
 
