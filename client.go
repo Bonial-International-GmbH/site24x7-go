@@ -2,17 +2,13 @@ package site24x7
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"github.com/Bonial-International-GmbH/site24x7-go/api/endpoints"
 	"github.com/Bonial-International-GmbH/site24x7-go/backoff"
 	"github.com/Bonial-International-GmbH/site24x7-go/oauth"
 	"github.com/Bonial-International-GmbH/site24x7-go/rest"
-)
-
-const (
-	// APIBaseURL is the base url of the Site24x7 API.
-	APIBaseURL = "https://www.site24x7.com/api"
 )
 
 // Config is the configuration for the Site24x7 API Client.
@@ -30,15 +26,29 @@ type Config struct {
 	// if it expires.
 	RefreshToken string
 
+	// ApiTLD is the top-level domain (without leading dot) of the data center to use.
+	// See https://www.site24x7.com/help/api/index.html#introduction for options.
+	// Defaults to "com" if not given.
+	ApiTLD string
+
 	// RetryConfig contains the configuration of the backoff-retry behavior. If
 	// nil, backoff.DefaultRetryConfig will be used.
 	RetryConfig *backoff.RetryConfig
 }
 
+// GetApiTld returns ApiTLD from Config if given, or defaults to "com".
+func GetApiTld(c *Config) string {
+	var ApiTld = "com"
+	if c.ApiTLD != "" {
+		ApiTld = c.ApiTLD
+	}
+	return ApiTld
+}
+
 // OAuthClient creates a new *http.Client from c that transparently obtains and
 // attaches OAuth access tokens to every request.
 func (c *Config) OAuthClient(ctx context.Context) *http.Client {
-	oauthConfig := oauth.NewConfig(c.ClientID, c.ClientSecret, c.RefreshToken)
+	oauthConfig := oauth.NewConfig(c.ClientID, c.ClientSecret, c.RefreshToken, GetApiTld(c))
 
 	return oauthConfig.Client(ctx)
 }
@@ -74,13 +84,15 @@ func New(c Config) Client {
 		c.RetryConfig,
 	)
 
-	return NewClient(httpClient)
+	return NewClient(httpClient, GetApiTld(&c))
 }
 
 // NewClient creates a new Site24x7 API Client from httpClient. This can be
 // used to provide a custom http client for use with the API. The custom http
 // client has to transparently handle the Site24x7 OAuth flow.
-func NewClient(httpClient HTTPClient) Client {
+func NewClient(httpClient HTTPClient, apiTld string) Client {
+	var APIBaseURL = fmt.Sprintf("https://www.site24x7.%s/api", apiTld)
+
 	return &client{
 		restClient: rest.NewClient(httpClient, APIBaseURL),
 	}

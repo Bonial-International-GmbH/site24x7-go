@@ -2,16 +2,13 @@ package oauth
 
 import (
 	"context"
+	"fmt"
 	"net/http"
 
 	"golang.org/x/oauth2"
 )
 
 const (
-	// TokenURL is the URL from where access tokens for the Site24x7 API are
-	// obtained.
-	TokenURL = "https://accounts.zoho.com/oauth/v2/token"
-
 	// TokenType is the type used in the Authorization header next to the
 	// access token.
 	TokenType = "Zoho-oauthtoken"
@@ -28,7 +25,9 @@ type Config struct {
 }
 
 // NewConfig creates a new *Config for the provided client credentials.
-func NewConfig(clientID, clientSecret, refreshToken string) *Config {
+func NewConfig(clientID, clientSecret, refreshToken, apiTld string) *Config {
+	var TokenURL = fmt.Sprintf("https://accounts.zoho.%s/oauth/v2/token", apiTld)
+
 	return &Config{
 		Config: &oauth2.Config{
 			ClientID:     clientID,
