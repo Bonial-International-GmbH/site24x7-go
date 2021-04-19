@@ -1,7 +1,7 @@
 site24x7-go
 ===========
 
-[![Build Status](https://travis-ci.org/Bonial-International-GmbH/site24x7-go.svg?branch=master)](https://travis-ci.org/Bonial-International-GmbH/site24x7-go)
+[![Build Status](https://github.com/Bonial-International-GmbH/site24x7-go/workflows/build/badge.svg)](https://github.com/Bonial-International-GmbH/site24x7-go/actions?query=workflow%3Abuild)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Bonial-International-GmbH/site24x7-go?style=flat)](https://goreportcard.com/report/github.com/Bonial-International-GmbH/site24x7-go)
 [![GoDoc](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go?status.svg)](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go)
 
