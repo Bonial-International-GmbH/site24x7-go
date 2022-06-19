@@ -155,6 +155,13 @@ type UserGroup struct {
 	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
 }
 
+type Users struct {
+	EmailAddress string   `json:"email_address,omitempty"`
+	DisplayName  string   `json:"display_name"`
+	UserID       string   `json:"user_id,omitempty"`
+	UserGroup    []string `json:"user_groups,omitempty"`
+}
+
 // ITAutomation prioritize and remediate routine actions automatically,
 // increase IT efficiency and streamline your processes to reduce performance degrade
 type ITAutomation struct {

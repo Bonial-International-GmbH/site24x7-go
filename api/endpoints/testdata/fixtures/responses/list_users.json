@@ -1,0 +1,31 @@
+{
+  "code":0,
+  "message":"success",
+  "data":[
+    {
+      "email_address":"users.list@test.com",
+      "display_name":"User Tester",
+      "user_id" : "09856666678", 
+      "user_groups":[
+       "Admin",
+       "SRE"
+      ]
+    },
+    {
+      "email_address":"users.list2@test.com",
+      "display_name":"User Tester2",
+      "user_id" : "34567890", 
+      "user_groups":[
+       "SRE"
+      ]
+    },
+    {
+      "email_address":"users.list3@test.com",
+      "display_name":"User Tester3",
+      "user_id" : "34567111890", 
+      "user_groups":[
+       "SRE"
+      ]
+    }
+  ]
+}

@@ -72,6 +72,7 @@ type Client interface {
 	ThresholdProfiles() endpoints.ThresholdProfiles
 	UserGroups() endpoints.UserGroups
 	ITAutomations() endpoints.ITAutomations
+	Users() endpoints.Users
 }
 
 type client struct {
@@ -146,6 +147,9 @@ func (c *client) ThresholdProfiles() endpoints.ThresholdProfiles {
 // UserGroups implements Client.
 func (c *client) UserGroups() endpoints.UserGroups {
 	return endpoints.NewUserGroups(c.restClient)
+}
+func (c *client) Users() endpoints.Users {
+	return endpoints.NewUsers(c.restClient)
 }
 
 // ItAutomations implements Client.
