@@ -148,6 +148,8 @@ func (c *client) ThresholdProfiles() endpoints.ThresholdProfiles {
 func (c *client) UserGroups() endpoints.UserGroups {
 	return endpoints.NewUserGroups(c.restClient)
 }
+
+// Users implements Client.
 func (c *client) Users() endpoints.Users {
 	return endpoints.NewUsers(c.restClient)
 }

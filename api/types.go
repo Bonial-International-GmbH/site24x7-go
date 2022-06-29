@@ -155,7 +155,8 @@ type UserGroup struct {
 	AttributeGroupID string   `json:"attribute_group_id,omitempty"`
 }
 
-type Users struct {
+// User who can login to Site24x7 and receive instant notifications about outages.
+type User struct {
 	EmailAddress string   `json:"email_address,omitempty"`
 	DisplayName  string   `json:"display_name"`
 	UserID       string   `json:"user_id,omitempty"`

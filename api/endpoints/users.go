@@ -6,7 +6,7 @@ import (
 )
 
 type Users interface {
-	List() ([]*api.Users, error)
+	List() ([]*api.User, error)
 }
 
 type users struct {
@@ -19,8 +19,8 @@ func NewUsers(client rest.Client) Users {
 	}
 }
 
-func (c *users) List() ([]*api.Users, error) {
-	users := []*api.Users{}
+func (c *users) List() ([]*api.User, error) {
+	users := []*api.User{}
 	err := c.client.
 		Get().
 		Resource("users").
