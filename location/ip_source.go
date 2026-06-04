@@ -73,26 +73,26 @@ func (s *DNSIPSource) LookupIPs(location *api.Location) ([]string, error) {
 // This builds the DNS name that resolves to all IP addresses
 // for given location. DNS names have the following form:
 //
-//   {{CityName}}-{{CountryCode}}.enduserexp.com
+//	{{CityName}}-{{CountryCode}}.enduserexp.com
 //
 // For example, the DNS name for `Tel Aviv` in Israel is:
 //
-//   telaviv-il.enduserexp.com
+//	telaviv-il.enduserexp.com
 //
 // However, the DNS name for `Rio de Janeiro` in Brazil is not:
 //
-//   riodejaneiro-br.enduserexp.com
+//	riodejaneiro-br.enduserexp.com
 //
 // but rather
 //
-//    rio-br.enduserexp.com
+//	rio-br.enduserexp.com
 //
 // For these cases, the following sequence of DNS lookups is attempted, bailing
 // out on the first successful one:
 //
-//   1. riodejaneiro-br.enduserexp.com
-//   2. riode-br.enduserexp.com
-//   3. rio-br.enduserexp.com
+//  1. riodejaneiro-br.enduserexp.com
+//  2. riode-br.enduserexp.com
+//  3. rio-br.enduserexp.com
 func (s *DNSIPSource) lookupIPs(cityName string, countryCode string) (ips []net.IP, err error) {
 	words := strings.Split(cityName, " ")
 

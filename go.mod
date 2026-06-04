@@ -1,11 +1,20 @@
 module github.com/Bonial-International-GmbH/site24x7-go
 
-go 1.12
+go 1.25.10
 
 require (
-	github.com/google/go-querystring v1.0.0
-	github.com/hashicorp/go-retryablehttp v0.6.2
-	github.com/sirupsen/logrus v1.4.2
-	github.com/stretchr/testify v1.3.0
-	golang.org/x/oauth2 v0.0.0-20190604053449-0f29369cfe45
+	github.com/google/go-querystring v1.2.0
+	github.com/hashicorp/go-retryablehttp v0.7.8
+	github.com/sirupsen/logrus v1.9.4
+	github.com/stretchr/testify v1.11.1
+	golang.org/x/oauth2 v0.36.0
+)
+
+require (
+	github.com/davecgh/go-spew v1.1.1 // indirect
+	github.com/hashicorp/go-cleanhttp v0.5.2 // indirect
+	github.com/pmezard/go-difflib v1.0.0 // indirect
+	github.com/stretchr/objx v0.5.3 // indirect
+	golang.org/x/sys v0.45.0 // indirect
+	gopkg.in/yaml.v3 v3.0.1 // indirect
 )
