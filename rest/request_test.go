@@ -3,7 +3,7 @@ package rest
 import (
 	"bytes"
 	"errors"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"testing"
 
@@ -67,7 +67,7 @@ func TestRequestBuildRequest(t *testing.T) {
 	assert.Equal(t, "DELETE", req.Method)
 	assert.Equal(t, "/foos/123", req.URL.Path)
 
-	buf, err := ioutil.ReadAll(req.Body)
+	buf, err := io.ReadAll(req.Body)
 
 	require.NoError(t, err)
 
@@ -137,7 +137,7 @@ func newFakeHTTPClient() *fakeHTTPClient {
 func (c *fakeHTTPClient) WithStatusCode(code int) *fakeHTTPClient {
 	if c.resp == nil {
 		c.resp = &http.Response{
-			Body: ioutil.NopCloser(bytes.NewReader(nil)),
+			Body: io.NopCloser(bytes.NewReader(nil)),
 		}
 	}
 
@@ -150,7 +150,7 @@ func (c *fakeHTTPClient) WithResponseBody(buf []byte) *fakeHTTPClient {
 		c.resp = &http.Response{}
 	}
 
-	c.resp.Body = ioutil.NopCloser(bytes.NewReader(buf))
+	c.resp.Body = io.NopCloser(bytes.NewReader(buf))
 	c.resp.ContentLength = int64(len(buf))
 	return c
 }

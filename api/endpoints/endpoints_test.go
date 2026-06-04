@@ -2,9 +2,10 @@ package endpoints
 
 import (
 	"encoding/json"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/http/httptest"
+	"os"
 	"testing"
 
 	"github.com/Bonial-International-GmbH/site24x7-go/api"
@@ -33,7 +34,7 @@ func runTest(t *testing.T, test *endpointTest) {
 		}
 
 		if test.expectedBody != nil {
-			body, err := ioutil.ReadAll(r.Body)
+			body, err := io.ReadAll(r.Body)
 			if err != nil {
 				t.Fatal(err)
 			}
@@ -88,7 +89,7 @@ func jsonAPIResponseBody(t *testing.T, v interface{}) []byte {
 }
 
 func fixture(t *testing.T, filename string) []byte {
-	buf, err := ioutil.ReadFile("testdata/fixtures/" + filename)
+	buf, err := os.ReadFile("testdata/fixtures/" + filename)
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -163,7 +163,9 @@ func DefaultBackoff(min, max time.Duration, attemptNum int, resp *http.Response)
 		return retryAfter
 	}
 
-	return retryablehttp.DefaultBackoff(min, max, attemptNum, resp)
+	// Pass nil to prevent retryablehttp.DefaultBackoff (v0.7+) from also
+	// parsing the Retry-After header we already handled above.
+	return retryablehttp.DefaultBackoff(min, max, attemptNum, nil)
 }
 
 // getRetryAfter obtains the timeout from the Retry-After header if set. The

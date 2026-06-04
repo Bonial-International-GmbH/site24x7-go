@@ -4,7 +4,7 @@ import (
 	"bytes"
 	"encoding/json"
 	"fmt"
-	"io/ioutil"
+	"io"
 	"net/http"
 	"net/url"
 
@@ -114,7 +114,7 @@ func (r *Request) buildRequest() (*http.Request, error) {
 	req := &http.Request{
 		Method: r.verb,
 		Header: r.header,
-		Body:   ioutil.NopCloser(bytes.NewReader(r.body)),
+		Body:   io.NopCloser(bytes.NewReader(r.body)),
 		URL:    url,
 	}
 
@@ -135,7 +135,7 @@ func (r *Request) doRequest(req *http.Request) Response {
 
 	defer resp.Body.Close()
 
-	body, err := ioutil.ReadAll(resp.Body)
+	body, err := io.ReadAll(resp.Body)
 	if err != nil {
 		return Response{err: err}
 	}
