@@ -17,6 +17,7 @@ the following endpoints are implemented:
 * Notification Profiles
 * Threshold Profiles
 * User Groups
+* Users
 
 If you want to add support for other endpoints as well or want to add missing
 fields to an existing endpoint, we are happy to accept Pull Requests.
@@ -31,6 +32,11 @@ The following Site24x7 OAuth Scopes are required for using the implemented endpo
   * Get/List: `Site24x7.Admin.Read`
   * Update: `Site24x7.Admin.Update`
   * Delete: `Site24x7.Admin.Delete`
+* Users
+  * Create: `Site24x7.Account.Create`
+  * Get/List: `Site24x7.Account.Read`
+  * Update: `Site24x7.Account.Update`
+  * Delete: `Site24x7.Account.Delete`
 * IT Automations
   * Create: `Site24x7.Operations.Create`
   * Get/List: `Site24x7.Operations.Read`

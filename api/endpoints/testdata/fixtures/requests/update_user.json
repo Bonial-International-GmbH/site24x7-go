@@ -1,0 +1,18 @@
+{
+  "user_id": "112233445566",
+  "display_name": "Jane Smith",
+  "email_address": "jane.smith@example.com",
+  "role": 1,
+  "notify_medium": [1],
+  "selection_type": 0,
+  "user_groups": ["123456789012"],
+  "alert_settings": {
+    "email_format": 1,
+    "alert_starttime": "09:00",
+    "alert_endtime": "17:00",
+    "down": true,
+    "trouble": false,
+    "up": true,
+    "applogs": false
+  }
+}
