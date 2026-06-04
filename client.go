@@ -71,6 +71,7 @@ type Client interface {
 	NotificationProfiles() endpoints.NotificationProfiles
 	ThresholdProfiles() endpoints.ThresholdProfiles
 	UserGroups() endpoints.UserGroups
+	Users() endpoints.Users
 	ITAutomations() endpoints.ITAutomations
 }
 
@@ -146,6 +147,11 @@ func (c *client) ThresholdProfiles() endpoints.ThresholdProfiles {
 // UserGroups implements Client.
 func (c *client) UserGroups() endpoints.UserGroups {
 	return endpoints.NewUserGroups(c.restClient)
+}
+
+// Users implements Client.
+func (c *client) Users() endpoints.Users {
+	return endpoints.NewUsers(c.restClient)
 }
 
 // ItAutomations implements Client.
