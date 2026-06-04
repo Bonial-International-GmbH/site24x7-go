@@ -1,8 +1,14 @@
 version: "2"
 linters:
   enable:
+    - gosec
     - misspell
+    - revive
     - whitespace
+  settings:
+    errcheck:
+      exclude-functions:
+        - (io.Closer).Close
   exclusions:
     generated: lax
     presets:
@@ -10,6 +16,11 @@ linters:
       - common-false-positives
       - legacy
       - std-error-handling
+    rules:
+      - linters:
+          - errcheck
+          - gosec
+        path: _test\.go
     paths:
       - third_party$
       - builtin$
