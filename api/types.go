@@ -199,6 +199,41 @@ type MonitorStatus struct {
 	Tags           []string `json:"tags"`
 }
 
+// User represents a Site24x7 user account.
+type User struct {
+	UserID         string          `json:"user_id,omitempty"`
+	DisplayName    string          `json:"display_name"`
+	EmailAddress   string          `json:"email_address"`
+	Role           int             `json:"role"`
+	NotifyMedium   []int           `json:"notify_medium,omitempty"`
+	SelectionType  int             `json:"selection_type"`
+	UserGroups     []string        `json:"user_groups,omitempty"`
+	StatusIQRole   int             `json:"status_iq_role,omitempty"`
+	CloudspendRole int             `json:"cloudspend_role,omitempty"`
+	MobileSettings *MobileSettings `json:"mobile_settings,omitempty"`
+	AlertSettings  *AlertSettings  `json:"alert_settings,omitempty"`
+}
+
+// MobileSettings holds mobile notification configuration for a User.
+type MobileSettings struct {
+	MobileNumber string `json:"mobile_number"`
+	CountryCode  string `json:"country_code"`
+	VoiceCall    bool   `json:"voice_call"`
+	SMS          bool   `json:"sms"`
+}
+
+// AlertSettings holds alert notification preferences for a User.
+type AlertSettings struct {
+	EmailFormat     int    `json:"email_format"`
+	DontAlertOnDays []int  `json:"dont_alert_on_days,omitempty"`
+	AlertStartTime  string `json:"alert_starttime"`
+	AlertEndTime    string `json:"alert_endtime"`
+	Down            bool   `json:"down"`
+	Trouble         bool   `json:"trouble"`
+	Up              bool   `json:"up"`
+	AppLogs         bool   `json:"applogs"`
+}
+
 // CurrentStatusListOptions hold the options that can be specified to filter
 // current monitor statuses.
 type CurrentStatusListOptions struct {
