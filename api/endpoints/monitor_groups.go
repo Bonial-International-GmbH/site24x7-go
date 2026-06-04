@@ -14,70 +14,19 @@ type MonitorGroups interface {
 }
 
 type monitorGroups struct {
-	client rest.Client
+	crud[api.MonitorGroup]
 }
 
 func NewMonitorGroups(client rest.Client) MonitorGroups {
-	return &monitorGroups{
-		client: client,
-	}
+	return &monitorGroups{crud[api.MonitorGroup]{client: client, resource: "monitor_groups"}}
 }
 
-func (c *monitorGroups) Get(groupID string) (*api.MonitorGroup, error) {
-	monitorGroup := &api.MonitorGroup{}
-	err := c.client.
-		Get().
-		Resource("monitor_groups").
-		ResourceID(groupID).
-		Do().
-		Into(monitorGroup)
-
-	return monitorGroup, err
-}
-
+func (c *monitorGroups) Get(groupID string) (*api.MonitorGroup, error) { return c.get(groupID) }
 func (c *monitorGroups) Create(group *api.MonitorGroup) (*api.MonitorGroup, error) {
-	newMonitorGroup := &api.MonitorGroup{}
-	err := c.client.
-		Post().
-		Resource("monitor_groups").
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(group).
-		Do().
-		Into(newMonitorGroup)
-
-	return newMonitorGroup, err
+	return c.create(group)
 }
-
 func (c *monitorGroups) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
-	updatedGroup := &api.MonitorGroup{}
-	err := c.client.
-		Put().
-		Resource("monitor_groups").
-		ResourceID(group.GroupID).
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(group).
-		Do().
-		Into(updatedGroup)
-
-	return updatedGroup, err
+	return c.update(group.GroupID, group)
 }
-
-func (c *monitorGroups) Delete(groupID string) error {
-	return c.client.
-		Delete().
-		Resource("monitor_groups").
-		ResourceID(groupID).
-		Do().
-		Err()
-}
-
-func (c *monitorGroups) List() ([]*api.MonitorGroup, error) {
-	monitorGroups := []*api.MonitorGroup{}
-	err := c.client.
-		Get().
-		Resource("monitor_groups").
-		Do().
-		Into(&monitorGroups)
-
-	return monitorGroups, err
-}
+func (c *monitorGroups) Delete(groupID string) error          { return c.delete(groupID) }
+func (c *monitorGroups) List() ([]*api.MonitorGroup, error)   { return c.list() }

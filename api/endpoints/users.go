@@ -15,71 +15,16 @@ type Users interface {
 }
 
 type users struct {
-	client rest.Client
+	crud[api.User]
 }
 
 // NewUsers creates a new Users endpoint client.
 func NewUsers(client rest.Client) Users {
-	return &users{
-		client: client,
-	}
+	return &users{crud[api.User]{client: client, resource: "users"}}
 }
 
-func (c *users) Get(userID string) (*api.User, error) {
-	user := &api.User{}
-	err := c.client.
-		Get().
-		Resource("users").
-		ResourceID(userID).
-		Do().
-		Into(user)
-
-	return user, err
-}
-
-func (c *users) Create(user *api.User) (*api.User, error) {
-	newUser := &api.User{}
-	err := c.client.
-		Post().
-		Resource("users").
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(user).
-		Do().
-		Into(newUser)
-
-	return newUser, err
-}
-
-func (c *users) Update(user *api.User) (*api.User, error) {
-	updatedUser := &api.User{}
-	err := c.client.
-		Put().
-		Resource("users").
-		ResourceID(user.UserID).
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(user).
-		Do().
-		Into(updatedUser)
-
-	return updatedUser, err
-}
-
-func (c *users) Delete(userID string) error {
-	return c.client.
-		Delete().
-		Resource("users").
-		ResourceID(userID).
-		Do().
-		Err()
-}
-
-func (c *users) List() ([]*api.User, error) {
-	users := []*api.User{}
-	err := c.client.
-		Get().
-		Resource("users").
-		Do().
-		Into(&users)
-
-	return users, err
-}
+func (c *users) Get(userID string) (*api.User, error)     { return c.get(userID) }
+func (c *users) Create(user *api.User) (*api.User, error) { return c.create(user) }
+func (c *users) Update(user *api.User) (*api.User, error) { return c.update(user.UserID, user) }
+func (c *users) Delete(userID string) error               { return c.delete(userID) }
+func (c *users) List() ([]*api.User, error)               { return c.list() }

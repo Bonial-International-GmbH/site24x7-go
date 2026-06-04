@@ -13,38 +13,13 @@ type ThresholdProfiles struct {
 }
 
 func (e *ThresholdProfiles) Get(profileID string) (*api.ThresholdProfile, error) {
-	args := e.Called(profileID)
-	if obj, ok := args.Get(0).(*api.ThresholdProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.ThresholdProfile](e.Called(profileID))
 }
-
 func (e *ThresholdProfiles) Create(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
-	args := e.Called(profile)
-	if obj, ok := args.Get(0).(*api.ThresholdProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.ThresholdProfile](e.Called(profile))
 }
-
 func (e *ThresholdProfiles) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
-	args := e.Called(profile)
-	if obj, ok := args.Get(0).(*api.ThresholdProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.ThresholdProfile](e.Called(profile))
 }
-
-func (e *ThresholdProfiles) Delete(profileID string) error {
-	args := e.Called(profileID)
-	return args.Error(0)
-}
-
-func (e *ThresholdProfiles) List() ([]*api.ThresholdProfile, error) {
-	args := e.Called()
-	if obj, ok := args.Get(0).([]*api.ThresholdProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
+func (e *ThresholdProfiles) Delete(profileID string) error           { return e.Called(profileID).Error(0) }
+func (e *ThresholdProfiles) List() ([]*api.ThresholdProfile, error)  { return mockReturnSlice[api.ThresholdProfile](e.Called()) }

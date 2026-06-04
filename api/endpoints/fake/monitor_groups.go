@@ -13,38 +13,13 @@ type MonitorGroups struct {
 }
 
 func (e *MonitorGroups) Get(groupID string) (*api.MonitorGroup, error) {
-	args := e.Called(groupID)
-	if obj, ok := args.Get(0).(*api.MonitorGroup); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.MonitorGroup](e.Called(groupID))
 }
-
 func (e *MonitorGroups) Create(group *api.MonitorGroup) (*api.MonitorGroup, error) {
-	args := e.Called(group)
-	if obj, ok := args.Get(0).(*api.MonitorGroup); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.MonitorGroup](e.Called(group))
 }
-
 func (e *MonitorGroups) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
-	args := e.Called(group)
-	if obj, ok := args.Get(0).(*api.MonitorGroup); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.MonitorGroup](e.Called(group))
 }
-
-func (e *MonitorGroups) Delete(groupID string) error {
-	args := e.Called(groupID)
-	return args.Error(0)
-}
-
-func (e *MonitorGroups) List() ([]*api.MonitorGroup, error) {
-	args := e.Called()
-	if obj, ok := args.Get(0).([]*api.MonitorGroup); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
+func (e *MonitorGroups) Delete(groupID string) error        { return e.Called(groupID).Error(0) }
+func (e *MonitorGroups) List() ([]*api.MonitorGroup, error) { return mockReturnSlice[api.MonitorGroup](e.Called()) }

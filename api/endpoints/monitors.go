@@ -16,88 +16,25 @@ type Monitors interface {
 }
 
 type monitors struct {
-	client rest.Client
+	crud[api.Monitor]
 }
 
 func NewMonitors(client rest.Client) Monitors {
-	return &monitors{
-		client: client,
-	}
+	return &monitors{crud[api.Monitor]{client: client, resource: "monitors"}}
 }
 
-func (c *monitors) Get(monitorID string) (*api.Monitor, error) {
-	monitor := &api.Monitor{}
-	err := c.client.
-		Get().
-		Resource("monitors").
-		ResourceID(monitorID).
-		Do().
-		Into(monitor)
-
-	return monitor, err
-}
-
-func (c *monitors) Create(monitor *api.Monitor) (*api.Monitor, error) {
-	newMonitor := &api.Monitor{}
-	err := c.client.
-		Post().
-		Resource("monitors").
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(monitor).
-		Do().
-		Into(newMonitor)
-
-	return newMonitor, err
-}
-
+func (c *monitors) Get(monitorID string) (*api.Monitor, error)        { return c.get(monitorID) }
+func (c *monitors) Create(monitor *api.Monitor) (*api.Monitor, error) { return c.create(monitor) }
 func (c *monitors) Update(monitor *api.Monitor) (*api.Monitor, error) {
-	updatedMonitor := &api.Monitor{}
-	err := c.client.
-		Put().
-		Resource("monitors").
-		ResourceID(monitor.MonitorID).
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(monitor).
-		Do().
-		Into(updatedMonitor)
-
-	return updatedMonitor, err
+	return c.update(monitor.MonitorID, monitor)
 }
-
-func (c *monitors) Delete(monitorID string) error {
-	return c.client.
-		Delete().
-		Resource("monitors").
-		ResourceID(monitorID).
-		Do().
-		Err()
-}
-
-func (c *monitors) List() ([]*api.Monitor, error) {
-	monitors := []*api.Monitor{}
-	err := c.client.
-		Get().
-		Resource("monitors").
-		Do().
-		Into(&monitors)
-
-	return monitors, err
-}
+func (c *monitors) Delete(monitorID string) error      { return c.delete(monitorID) }
+func (c *monitors) List() ([]*api.Monitor, error)      { return c.list() }
 
 func (c *monitors) Activate(monitorID string) error {
-	return c.client.
-		Put().
-		Resource("monitors/activate").
-		ResourceID(monitorID).
-		Do().
-		Err()
+	return c.client.Put().Resource("monitors/activate").ResourceID(monitorID).Do().Err()
 }
 
 func (c *monitors) Suspend(monitorID string) error {
-	return c.client.
-		Put().
-		Resource("monitors/suspend").
-		ResourceID(monitorID).
-		Do().
-		Err()
+	return c.client.Put().Resource("monitors/suspend").ResourceID(monitorID).Do().Err()
 }

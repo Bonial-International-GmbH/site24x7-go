@@ -12,39 +12,8 @@ type Users struct {
 	mock.Mock
 }
 
-func (e *Users) Get(userID string) (*api.User, error) {
-	args := e.Called(userID)
-	if obj, ok := args.Get(0).(*api.User); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
-
-func (e *Users) Create(user *api.User) (*api.User, error) {
-	args := e.Called(user)
-	if obj, ok := args.Get(0).(*api.User); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
-
-func (e *Users) Update(user *api.User) (*api.User, error) {
-	args := e.Called(user)
-	if obj, ok := args.Get(0).(*api.User); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
-
-func (e *Users) Delete(userID string) error {
-	args := e.Called(userID)
-	return args.Error(0)
-}
-
-func (e *Users) List() ([]*api.User, error) {
-	args := e.Called()
-	if obj, ok := args.Get(0).([]*api.User); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
+func (e *Users) Get(userID string) (*api.User, error)     { return mockReturn[api.User](e.Called(userID)) }
+func (e *Users) Create(user *api.User) (*api.User, error) { return mockReturn[api.User](e.Called(user)) }
+func (e *Users) Update(user *api.User) (*api.User, error) { return mockReturn[api.User](e.Called(user)) }
+func (e *Users) Delete(userID string) error               { return e.Called(userID).Error(0) }
+func (e *Users) List() ([]*api.User, error)               { return mockReturnSlice[api.User](e.Called()) }
