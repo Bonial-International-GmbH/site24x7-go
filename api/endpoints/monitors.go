@@ -28,8 +28,8 @@ func (c *monitors) Create(monitor *api.Monitor) (*api.Monitor, error) { return c
 func (c *monitors) Update(monitor *api.Monitor) (*api.Monitor, error) {
 	return c.update(monitor.MonitorID, monitor)
 }
-func (c *monitors) Delete(monitorID string) error      { return c.delete(monitorID) }
-func (c *monitors) List() ([]*api.Monitor, error)      { return c.list() }
+func (c *monitors) Delete(monitorID string) error { return c.delete(monitorID) }
+func (c *monitors) List() ([]*api.Monitor, error) { return c.list() }
 
 func (c *monitors) Activate(monitorID string) error {
 	return c.client.Put().Resource("monitors/activate").ResourceID(monitorID).Do().Err()

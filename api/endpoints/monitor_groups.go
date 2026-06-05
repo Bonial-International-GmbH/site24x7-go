@@ -28,5 +28,5 @@ func (c *monitorGroups) Create(group *api.MonitorGroup) (*api.MonitorGroup, erro
 func (c *monitorGroups) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
 	return c.update(group.GroupID, group)
 }
-func (c *monitorGroups) Delete(groupID string) error          { return c.delete(groupID) }
-func (c *monitorGroups) List() ([]*api.MonitorGroup, error)   { return c.list() }
+func (c *monitorGroups) Delete(groupID string) error        { return c.delete(groupID) }
+func (c *monitorGroups) List() ([]*api.MonitorGroup, error) { return c.list() }

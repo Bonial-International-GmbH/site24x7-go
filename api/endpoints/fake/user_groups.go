@@ -21,5 +21,7 @@ func (e *UserGroups) Create(group *api.UserGroup) (*api.UserGroup, error) {
 func (e *UserGroups) Update(group *api.UserGroup) (*api.UserGroup, error) {
 	return mockReturn[api.UserGroup](e.Called(group))
 }
-func (e *UserGroups) Delete(groupID string) error       { return e.Called(groupID).Error(0) }
-func (e *UserGroups) List() ([]*api.UserGroup, error)   { return mockReturnSlice[api.UserGroup](e.Called()) }
+func (e *UserGroups) Delete(groupID string) error { return e.Called(groupID).Error(0) }
+func (e *UserGroups) List() ([]*api.UserGroup, error) {
+	return mockReturnSlice[api.UserGroup](e.Called())
+}

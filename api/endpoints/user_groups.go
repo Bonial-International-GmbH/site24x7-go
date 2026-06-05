@@ -28,5 +28,5 @@ func (c *userGroups) Create(group *api.UserGroup) (*api.UserGroup, error) {
 func (c *userGroups) Update(group *api.UserGroup) (*api.UserGroup, error) {
 	return c.update(group.UserGroupID, group)
 }
-func (c *userGroups) Delete(groupID string) error       { return c.delete(groupID) }
-func (c *userGroups) List() ([]*api.UserGroup, error)   { return c.list() }
+func (c *userGroups) Delete(groupID string) error     { return c.delete(groupID) }
+func (c *userGroups) List() ([]*api.UserGroup, error) { return c.list() }

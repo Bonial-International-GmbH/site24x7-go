@@ -21,5 +21,7 @@ func (e *ITAutomations) Create(automation *api.ITAutomation) (*api.ITAutomation,
 func (e *ITAutomations) Update(automation *api.ITAutomation) (*api.ITAutomation, error) {
 	return mockReturn[api.ITAutomation](e.Called(automation))
 }
-func (e *ITAutomations) Delete(actionID string) error          { return e.Called(actionID).Error(0) }
-func (e *ITAutomations) List() ([]*api.ITAutomation, error)    { return mockReturnSlice[api.ITAutomation](e.Called()) }
+func (e *ITAutomations) Delete(actionID string) error { return e.Called(actionID).Error(0) }
+func (e *ITAutomations) List() ([]*api.ITAutomation, error) {
+	return mockReturnSlice[api.ITAutomation](e.Called())
+}

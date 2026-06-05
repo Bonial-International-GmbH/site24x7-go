@@ -21,5 +21,7 @@ func (e *NotificationProfiles) Create(profile *api.NotificationProfile) (*api.No
 func (e *NotificationProfiles) Update(profile *api.NotificationProfile) (*api.NotificationProfile, error) {
 	return mockReturn[api.NotificationProfile](e.Called(profile))
 }
-func (e *NotificationProfiles) Delete(profileID string) error              { return e.Called(profileID).Error(0) }
-func (e *NotificationProfiles) List() ([]*api.NotificationProfile, error)  { return mockReturnSlice[api.NotificationProfile](e.Called()) }
+func (e *NotificationProfiles) Delete(profileID string) error { return e.Called(profileID).Error(0) }
+func (e *NotificationProfiles) List() ([]*api.NotificationProfile, error) {
+	return mockReturnSlice[api.NotificationProfile](e.Called())
+}

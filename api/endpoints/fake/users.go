@@ -12,8 +12,12 @@ type Users struct {
 	mock.Mock
 }
 
-func (e *Users) Get(userID string) (*api.User, error)     { return mockReturn[api.User](e.Called(userID)) }
-func (e *Users) Create(user *api.User) (*api.User, error) { return mockReturn[api.User](e.Called(user)) }
-func (e *Users) Update(user *api.User) (*api.User, error) { return mockReturn[api.User](e.Called(user)) }
-func (e *Users) Delete(userID string) error               { return e.Called(userID).Error(0) }
-func (e *Users) List() ([]*api.User, error)               { return mockReturnSlice[api.User](e.Called()) }
+func (e *Users) Get(userID string) (*api.User, error) { return mockReturn[api.User](e.Called(userID)) }
+func (e *Users) Create(user *api.User) (*api.User, error) {
+	return mockReturn[api.User](e.Called(user))
+}
+func (e *Users) Update(user *api.User) (*api.User, error) {
+	return mockReturn[api.User](e.Called(user))
+}
+func (e *Users) Delete(userID string) error { return e.Called(userID).Error(0) }
+func (e *Users) List() ([]*api.User, error) { return mockReturnSlice[api.User](e.Called()) }

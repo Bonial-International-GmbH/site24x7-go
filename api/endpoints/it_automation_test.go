@@ -25,7 +25,7 @@ func TestITAutomations(t *testing.T) {
 					ActionTimeout: 30,
 					ActionMethod:  "P",
 					ActionName:    "takeaction",
-					ActionUrl:     "testing.tld",
+					ActionURL:     "testing.tld",
 				}
 				_, err := NewITAutomations(c).Create(automation)
 				require.NoError(t, err)
@@ -53,11 +53,11 @@ func TestITAutomations(t *testing.T) {
 				expected := &api.ITAutomation{
 					ActionID:               "123",
 					ActionName:             "takeaction",
-					ActionUrl:              "testing.tld",
+					ActionURL:              "testing.tld",
 					ActionTimeout:          30,
 					ActionType:             2,
 					ActionMethod:           "P",
-					SendInJsonFormat:       true,
+					SendInJSONFormat:       true,
 					SendCustomParameters:   true,
 					CustomParameters:       "{\"message_type\":\"TEST\"}",
 					SendIncidentParameters: true,
@@ -82,9 +82,9 @@ func TestITAutomations(t *testing.T) {
 						ActionMethod:           "P",
 						ActionName:             "takeaction",
 						CustomParameters:       "{\"message_type\":\"TEST\"}",
-						SendInJsonFormat:       true,
+						SendInJSONFormat:       true,
 						SendCustomParameters:   true,
-						ActionUrl:              "testing.tld",
+						ActionURL:              "testing.tld",
 						ActionTimeout:          30,
 						SendIncidentParameters: true,
 					},
@@ -93,8 +93,8 @@ func TestITAutomations(t *testing.T) {
 						ActionType:       4,
 						ActionMethod:     "PP",
 						ActionName:       "action",
-						SendInJsonFormat: true,
-						ActionUrl:        "testing.tld",
+						SendInJSONFormat: true,
+						ActionURL:        "testing.tld",
 						ActionTimeout:    30,
 					},
 				}
@@ -114,9 +114,9 @@ func TestITAutomations(t *testing.T) {
 					ActionType:             1,
 					ActionMethod:           "P",
 					ActionName:             "takeaction",
-					SendInJsonFormat:       true,
+					SendInJSONFormat:       true,
 					SendCustomParameters:   true,
-					ActionUrl:              "https://alert.generic.tld",
+					ActionURL:              "https://alert.generic.tld",
 					ActionTimeout:          30,
 					SendIncidentParameters: true,
 				}

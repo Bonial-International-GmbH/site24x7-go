@@ -30,5 +30,5 @@ func (c *notificationProfiles) Create(profile *api.NotificationProfile) (*api.No
 func (c *notificationProfiles) Update(profile *api.NotificationProfile) (*api.NotificationProfile, error) {
 	return c.update(profile.ProfileID, profile)
 }
-func (c *notificationProfiles) Delete(profileID string) error              { return c.delete(profileID) }
-func (c *notificationProfiles) List() ([]*api.NotificationProfile, error)  { return c.list() }
+func (c *notificationProfiles) Delete(profileID string) error             { return c.delete(profileID) }
+func (c *notificationProfiles) List() ([]*api.NotificationProfile, error) { return c.list() }

@@ -28,5 +28,5 @@ func (c *itAutomations) Create(automation *api.ITAutomation) (*api.ITAutomation,
 func (c *itAutomations) Update(automation *api.ITAutomation) (*api.ITAutomation, error) {
 	return c.update(automation.ActionID, automation)
 }
-func (c *itAutomations) Delete(actionID string) error          { return c.delete(actionID) }
-func (c *itAutomations) List() ([]*api.ITAutomation, error)    { return c.list() }
+func (c *itAutomations) Delete(actionID string) error       { return c.delete(actionID) }
+func (c *itAutomations) List() ([]*api.ITAutomation, error) { return c.list() }

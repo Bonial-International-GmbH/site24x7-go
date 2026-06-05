@@ -21,5 +21,7 @@ func (e *MonitorGroups) Create(group *api.MonitorGroup) (*api.MonitorGroup, erro
 func (e *MonitorGroups) Update(group *api.MonitorGroup) (*api.MonitorGroup, error) {
 	return mockReturn[api.MonitorGroup](e.Called(group))
 }
-func (e *MonitorGroups) Delete(groupID string) error        { return e.Called(groupID).Error(0) }
-func (e *MonitorGroups) List() ([]*api.MonitorGroup, error) { return mockReturnSlice[api.MonitorGroup](e.Called()) }
+func (e *MonitorGroups) Delete(groupID string) error { return e.Called(groupID).Error(0) }
+func (e *MonitorGroups) List() ([]*api.MonitorGroup, error) {
+	return mockReturnSlice[api.MonitorGroup](e.Called())
+}

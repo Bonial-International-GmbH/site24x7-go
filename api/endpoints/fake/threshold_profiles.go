@@ -21,5 +21,7 @@ func (e *ThresholdProfiles) Create(profile *api.ThresholdProfile) (*api.Threshol
 func (e *ThresholdProfiles) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
 	return mockReturn[api.ThresholdProfile](e.Called(profile))
 }
-func (e *ThresholdProfiles) Delete(profileID string) error           { return e.Called(profileID).Error(0) }
-func (e *ThresholdProfiles) List() ([]*api.ThresholdProfile, error)  { return mockReturnSlice[api.ThresholdProfile](e.Called()) }
+func (e *ThresholdProfiles) Delete(profileID string) error { return e.Called(profileID).Error(0) }
+func (e *ThresholdProfiles) List() ([]*api.ThresholdProfile, error) {
+	return mockReturnSlice[api.ThresholdProfile](e.Called())
+}

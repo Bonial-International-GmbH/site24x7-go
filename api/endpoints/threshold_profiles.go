@@ -30,5 +30,5 @@ func (c *thresholdProfiles) Create(profile *api.ThresholdProfile) (*api.Threshol
 func (c *thresholdProfiles) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
 	return c.update(profile.ProfileID, profile)
 }
-func (c *thresholdProfiles) Delete(profileID string) error           { return c.delete(profileID) }
-func (c *thresholdProfiles) List() ([]*api.ThresholdProfile, error)  { return c.list() }
+func (c *thresholdProfiles) Delete(profileID string) error          { return c.delete(profileID) }
+func (c *thresholdProfiles) List() ([]*api.ThresholdProfile, error) { return c.list() }

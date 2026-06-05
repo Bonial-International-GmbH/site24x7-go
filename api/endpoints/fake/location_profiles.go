@@ -21,5 +21,7 @@ func (e *LocationProfiles) Create(profile *api.LocationProfile) (*api.LocationPr
 func (e *LocationProfiles) Update(profile *api.LocationProfile) (*api.LocationProfile, error) {
 	return mockReturn[api.LocationProfile](e.Called(profile))
 }
-func (e *LocationProfiles) Delete(profileID string) error         { return e.Called(profileID).Error(0) }
-func (e *LocationProfiles) List() ([]*api.LocationProfile, error) { return mockReturnSlice[api.LocationProfile](e.Called()) }
+func (e *LocationProfiles) Delete(profileID string) error { return e.Called(profileID).Error(0) }
+func (e *LocationProfiles) List() ([]*api.LocationProfile, error) {
+	return mockReturnSlice[api.LocationProfile](e.Called())
+}
