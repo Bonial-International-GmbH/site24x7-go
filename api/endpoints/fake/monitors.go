@@ -13,48 +13,15 @@ type Monitors struct {
 }
 
 func (e *Monitors) Get(monitorID string) (*api.Monitor, error) {
-	args := e.Called(monitorID)
-	if obj, ok := args.Get(0).(*api.Monitor); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.Monitor](e.Called(monitorID))
 }
-
 func (e *Monitors) Create(monitor *api.Monitor) (*api.Monitor, error) {
-	args := e.Called(monitor)
-	if obj, ok := args.Get(0).(*api.Monitor); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.Monitor](e.Called(monitor))
 }
-
 func (e *Monitors) Update(monitor *api.Monitor) (*api.Monitor, error) {
-	args := e.Called(monitor)
-	if obj, ok := args.Get(0).(*api.Monitor); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.Monitor](e.Called(monitor))
 }
-
-func (e *Monitors) Delete(monitorID string) error {
-	args := e.Called(monitorID)
-	return args.Error(0)
-}
-
-func (e *Monitors) List() ([]*api.Monitor, error) {
-	args := e.Called()
-	if obj, ok := args.Get(0).([]*api.Monitor); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
-}
-
-func (e *Monitors) Activate(monitorID string) error {
-	args := e.Called(monitorID)
-	return args.Error(0)
-}
-
-func (e *Monitors) Suspend(monitorID string) error {
-	args := e.Called(monitorID)
-	return args.Error(0)
-}
+func (e *Monitors) List() ([]*api.Monitor, error)   { return mockReturnSlice[api.Monitor](e.Called()) }
+func (e *Monitors) Delete(monitorID string) error   { return e.Called(monitorID).Error(0) }
+func (e *Monitors) Activate(monitorID string) error { return e.Called(monitorID).Error(0) }
+func (e *Monitors) Suspend(monitorID string) error  { return e.Called(monitorID).Error(0) }

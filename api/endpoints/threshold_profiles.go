@@ -14,70 +14,21 @@ type ThresholdProfiles interface {
 }
 
 type thresholdProfiles struct {
-	client rest.Client
+	crud[api.ThresholdProfile]
 }
 
 func NewThresholdProfiles(client rest.Client) ThresholdProfiles {
-	return &thresholdProfiles{
-		client: client,
-	}
+	return &thresholdProfiles{crud[api.ThresholdProfile]{client: client, resource: "threshold_profiles"}}
 }
 
 func (c *thresholdProfiles) Get(profileID string) (*api.ThresholdProfile, error) {
-	profile := &api.ThresholdProfile{}
-	err := c.client.
-		Get().
-		Resource("threshold_profiles").
-		ResourceID(profileID).
-		Do().
-		Into(profile)
-
-	return profile, err
+	return c.get(profileID)
 }
-
 func (c *thresholdProfiles) Create(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
-	newThresholdProfile := &api.ThresholdProfile{}
-	err := c.client.
-		Post().
-		Resource("threshold_profiles").
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(profile).
-		Do().
-		Into(newThresholdProfile)
-
-	return newThresholdProfile, err
+	return c.create(profile)
 }
-
 func (c *thresholdProfiles) Update(profile *api.ThresholdProfile) (*api.ThresholdProfile, error) {
-	updatedThresholdProfile := &api.ThresholdProfile{}
-	err := c.client.
-		Put().
-		Resource("threshold_profiles").
-		ResourceID(profile.ProfileID).
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(profile).
-		Do().
-		Into(updatedThresholdProfile)
-
-	return updatedThresholdProfile, err
+	return c.update(profile.ProfileID, profile)
 }
-
-func (c *thresholdProfiles) Delete(profileID string) error {
-	return c.client.
-		Delete().
-		Resource("threshold_profiles").
-		ResourceID(profileID).
-		Do().
-		Err()
-}
-
-func (c *thresholdProfiles) List() ([]*api.ThresholdProfile, error) {
-	thresholdProfiles := []*api.ThresholdProfile{}
-	err := c.client.
-		Get().
-		Resource("threshold_profiles").
-		Do().
-		Into(&thresholdProfiles)
-
-	return thresholdProfiles, err
-}
+func (c *thresholdProfiles) Delete(profileID string) error          { return c.delete(profileID) }
+func (c *thresholdProfiles) List() ([]*api.ThresholdProfile, error) { return c.list() }

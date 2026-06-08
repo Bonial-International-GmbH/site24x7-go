@@ -153,7 +153,7 @@ func DefaultRetryPolicy(ctx context.Context, resp *http.Response, err error) (bo
 // parse the Retry-After header use that value as backoff. Will fallback to
 // exponential backoff if the Retry-After header is not present or cannot be
 // parsed.
-func DefaultBackoff(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration {
+func DefaultBackoff(min, max time.Duration, attemptNum int, resp *http.Response) time.Duration { //nolint:revive
 	retryAfter, ok := getRetryAfter(resp)
 	if ok && retryAfter > 0 {
 		if retryAfter > max {

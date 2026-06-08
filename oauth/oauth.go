@@ -10,11 +10,11 @@ import (
 const (
 	// TokenURL is the URL from where access tokens for the Site24x7 API are
 	// obtained.
-	TokenURL = "https://accounts.zoho.com/oauth/v2/token"
+	TokenURL = "https://accounts.zoho.com/oauth/v2/token" //nolint:gosec
 
 	// TokenType is the type used in the Authorization header next to the
 	// access token.
-	TokenType = "Zoho-oauthtoken"
+	TokenType = "Zoho-oauthtoken" //nolint:gosec
 )
 
 // Config is an OAuth config that is also aware of the refresh token.

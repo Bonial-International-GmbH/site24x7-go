@@ -13,38 +13,15 @@ type ITAutomations struct {
 }
 
 func (e *ITAutomations) Get(actionID string) (*api.ITAutomation, error) {
-	args := e.Called(actionID)
-	if obj, ok := args.Get(0).(*api.ITAutomation); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.ITAutomation](e.Called(actionID))
 }
-
 func (e *ITAutomations) Create(automation *api.ITAutomation) (*api.ITAutomation, error) {
-	args := e.Called(automation)
-	if obj, ok := args.Get(0).(*api.ITAutomation); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.ITAutomation](e.Called(automation))
 }
-
 func (e *ITAutomations) Update(automation *api.ITAutomation) (*api.ITAutomation, error) {
-	args := e.Called(automation)
-	if obj, ok := args.Get(0).(*api.ITAutomation); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.ITAutomation](e.Called(automation))
 }
-
-func (e *ITAutomations) Delete(actionID string) error {
-	args := e.Called(actionID)
-	return args.Error(0)
-}
-
+func (e *ITAutomations) Delete(actionID string) error { return e.Called(actionID).Error(0) }
 func (e *ITAutomations) List() ([]*api.ITAutomation, error) {
-	args := e.Called()
-	if obj, ok := args.Get(0).([]*api.ITAutomation); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturnSlice[api.ITAutomation](e.Called())
 }

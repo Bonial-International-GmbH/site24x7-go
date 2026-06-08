@@ -103,7 +103,7 @@ type NotificationProfile struct {
 	NotifyAfterExecutingActions bool     `json:"notify_after_executing_actions"`
 	DowntimeNotificationDelay   int      `json:"downtime_notification_delay,omitempty"`
 	PersistentNotification      int      `json:"persistent_notification,omitempty"`
-	EscalationUserGroupId       string   `json:"escalation_user_group_id,omitempty"`
+	EscalationUserGroupID       string   `json:"escalation_user_group_id,omitempty"`
 	EscalationWaitTime          int      `json:"escalation_wait_time"`
 	EscalationAutomations       []string `json:"escalation_automations,omitempty"`
 	EscalationServices          []string `json:"escalation_services,omitempty"`
@@ -160,7 +160,7 @@ type UserGroup struct {
 type ITAutomation struct {
 	ActionID               string `json:"action_id,omitempty"`
 	ActionName             string `json:"action_name"`
-	ActionUrl              string `json:"action_url"`
+	ActionURL              string `json:"action_url"`
 	ActionTimeout          int    `json:"action_timeout"`
 	ActionType             int    `json:"action_type"`
 	ActionMethod           string `json:"action_method"`
@@ -168,7 +168,7 @@ type ITAutomation struct {
 	SendIncidentParameters bool   `json:"send_incident_parameters"`
 	SendCustomParameters   bool   `json:"send_custom_parameters"`
 	CustomParameters       string `json:"custom_parameters"`
-	SendInJsonFormat       bool   `json:"send_in_json_format"`
+	SendInJSONFormat       bool   `json:"send_in_json_format"`
 	AuthMethod             string `json:"auth_method,omitempty"`
 	Username               string `json:"username,omitempty"`
 	Password               string `json:"password,omitempty"`

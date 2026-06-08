@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	"os"
+	"path/filepath"
 	"testing"
 
 	"github.com/Bonial-International-GmbH/site24x7-go/api"
@@ -89,7 +90,7 @@ func jsonAPIResponseBody(t *testing.T, v interface{}) []byte {
 }
 
 func fixture(t *testing.T, filename string) []byte {
-	buf, err := os.ReadFile("testdata/fixtures/" + filename)
+	buf, err := os.ReadFile(filepath.Join("testdata", "fixtures", filename))
 	if err != nil {
 		t.Fatal(err)
 	}

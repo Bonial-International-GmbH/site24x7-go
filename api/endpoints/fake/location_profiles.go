@@ -13,38 +13,15 @@ type LocationProfiles struct {
 }
 
 func (e *LocationProfiles) Get(profileID string) (*api.LocationProfile, error) {
-	args := e.Called(profileID)
-	if obj, ok := args.Get(0).(*api.LocationProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.LocationProfile](e.Called(profileID))
 }
-
 func (e *LocationProfiles) Create(profile *api.LocationProfile) (*api.LocationProfile, error) {
-	args := e.Called(profile)
-	if obj, ok := args.Get(0).(*api.LocationProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.LocationProfile](e.Called(profile))
 }
-
 func (e *LocationProfiles) Update(profile *api.LocationProfile) (*api.LocationProfile, error) {
-	args := e.Called(profile)
-	if obj, ok := args.Get(0).(*api.LocationProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturn[api.LocationProfile](e.Called(profile))
 }
-
-func (e *LocationProfiles) Delete(profileID string) error {
-	args := e.Called(profileID)
-	return args.Error(0)
-}
-
+func (e *LocationProfiles) Delete(profileID string) error { return e.Called(profileID).Error(0) }
 func (e *LocationProfiles) List() ([]*api.LocationProfile, error) {
-	args := e.Called()
-	if obj, ok := args.Get(0).([]*api.LocationProfile); ok {
-		return obj, args.Error(1)
-	}
-	return nil, args.Error(1)
+	return mockReturnSlice[api.LocationProfile](e.Called())
 }

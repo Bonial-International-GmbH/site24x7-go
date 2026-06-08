@@ -3,6 +3,7 @@ package site24x7
 import (
 	"context"
 	"net/http"
+	"time"
 
 	"github.com/Bonial-International-GmbH/site24x7-go/api/endpoints"
 	"github.com/Bonial-International-GmbH/site24x7-go/backoff"
@@ -41,6 +42,10 @@ type Config struct {
 	// RetryConfig contains the configuration of the backoff-retry behavior. If
 	// nil, backoff.DefaultRetryConfig will be used.
 	RetryConfig *backoff.RetryConfig
+
+	// Timeout is the timeout for each API request. Defaults to 30 seconds if
+	// not set.
+	Timeout time.Duration
 }
 
 // OAuthClient creates a new *http.Client from c that transparently obtains and
@@ -51,7 +56,13 @@ func (c *Config) OAuthClient(ctx context.Context) *http.Client {
 		oauthConfig.Endpoint.TokenURL = c.TokenURL
 	}
 
-	return oauthConfig.Client(ctx)
+	httpClient := oauthConfig.Client(ctx)
+	timeout := c.Timeout
+	if timeout == 0 {
+		timeout = 30 * time.Second
+	}
+	httpClient.Timeout = timeout
+	return httpClient
 }
 
 // HTTPClient is the interface of an http client that is compatible with

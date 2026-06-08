@@ -14,70 +14,21 @@ type LocationProfiles interface {
 }
 
 type locationProfiles struct {
-	client rest.Client
+	crud[api.LocationProfile]
 }
 
 func NewLocationProfiles(client rest.Client) LocationProfiles {
-	return &locationProfiles{
-		client: client,
-	}
+	return &locationProfiles{crud[api.LocationProfile]{client: client, resource: "location_profiles"}}
 }
 
 func (c *locationProfiles) Get(profileID string) (*api.LocationProfile, error) {
-	profile := &api.LocationProfile{}
-	err := c.client.
-		Get().
-		Resource("location_profiles").
-		ResourceID(profileID).
-		Do().
-		Into(profile)
-
-	return profile, err
+	return c.get(profileID)
 }
-
 func (c *locationProfiles) Create(profile *api.LocationProfile) (*api.LocationProfile, error) {
-	newProfile := &api.LocationProfile{}
-	err := c.client.
-		Post().
-		Resource("location_profiles").
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(profile).
-		Do().
-		Into(newProfile)
-
-	return newProfile, err
+	return c.create(profile)
 }
-
 func (c *locationProfiles) Update(profile *api.LocationProfile) (*api.LocationProfile, error) {
-	updatedProfile := &api.LocationProfile{}
-	err := c.client.
-		Put().
-		Resource("location_profiles").
-		ResourceID(profile.ProfileID).
-		AddHeader("Content-Type", "application/json;charset=UTF-8").
-		Body(profile).
-		Do().
-		Into(updatedProfile)
-
-	return updatedProfile, err
+	return c.update(profile.ProfileID, profile)
 }
-
-func (c *locationProfiles) Delete(profileID string) error {
-	return c.client.
-		Delete().
-		Resource("location_profiles").
-		ResourceID(profileID).
-		Do().
-		Err()
-}
-
-func (c *locationProfiles) List() ([]*api.LocationProfile, error) {
-	profiles := []*api.LocationProfile{}
-	err := c.client.
-		Get().
-		Resource("location_profiles").
-		Do().
-		Into(&profiles)
-
-	return profiles, err
-}
+func (c *locationProfiles) Delete(profileID string) error         { return c.delete(profileID) }
+func (c *locationProfiles) List() ([]*api.LocationProfile, error) { return c.list() }
