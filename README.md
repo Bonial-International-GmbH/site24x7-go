@@ -4,6 +4,7 @@ site24x7-go
 [![Build Status](https://github.com/Bonial-International-GmbH/site24x7-go/workflows/build/badge.svg)](https://github.com/Bonial-International-GmbH/site24x7-go/actions?query=workflow%3Abuild)
 [![Go Report Card](https://goreportcard.com/badge/github.com/Bonial-International-GmbH/site24x7-go?style=flat)](https://goreportcard.com/report/github.com/Bonial-International-GmbH/site24x7-go)
 [![GoDoc](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go?status.svg)](https://godoc.org/github.com/Bonial-International-GmbH/site24x7-go)
+[![OpenSSF Scorecard](https://api.scorecard.dev/projects/github.com/Bonial-International-GmbH/site24x7-go/badge)](https://scorecard.dev/viewer/?uri=github.com/Bonial-International-GmbH/site24x7-go)
 
 An API client for [Site24x7](https://www.site24x7.com) written in go. Currently
 the following endpoints are implemented:
